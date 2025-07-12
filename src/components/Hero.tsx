@@ -1,94 +1,101 @@
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
-      {/* Minimalist Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Background Grid */}
+      <div className="absolute inset-0 opacity-[0.05]">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
+            linear-gradient(white 1px, transparent 1px),
+            linear-gradient(90deg, white 1px, transparent 1px)
           `,
-          backgroundSize: '80px 80px'
+          backgroundSize: '100px 100px'
         }}></div>
       </div>
-      
+
       {/* Main Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* AI Prompt Interface */}
-        <div className="mb-12 animate-fade-in">
-          <div className="inline-flex items-start space-x-3 text-left max-w-4xl">
-            <div className="flex-shrink-0 w-8 h-8 bg-foreground text-background rounded-full flex items-center justify-center text-sm font-mono">
-              {'>'}
-            </div>
-            <div className="flex-1">
-              <div className="font-mono text-sm text-muted-foreground mb-2">
-                prompt: generate_executive_profile()
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
+        <div className="max-w-6xl w-full">
+          
+          {/* Header Section */}
+          <div className="text-center mb-16">
+            <div className="inline-block">
+              <div className="text-sm font-mono text-gray-400 mb-4 tracking-wider">
+                CHRISTOPHER_TAYLOR.EXE
               </div>
-              <div className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight">
-                <span className="font-bold">Christopher Taylor</span>
-                <br />
-                <span className="text-muted-foreground">Dynamic C-Level Executive</span>
-                <br />
-                <span className="text-lg md:text-xl text-muted-foreground font-normal">
-                  CEO/CTO Visionary specializing in AI-driven transformation
-                </span>
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight">
+                <span className="block">CHRIS</span>
+                <span className="block text-gray-500">TAYLOR</span>
+              </h1>
+              <div className="text-xl md:text-2xl text-gray-300 mt-8 font-light">
+                CEO/CTO • AI Strategist • Digital Transformer
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Terminal Output Style */}
-        <div className="text-left max-w-4xl mx-auto mb-12 animate-fade-in animation-delay-200">
-          <div className="bg-card border border-border rounded-lg p-6 font-mono text-sm">
-            <div className="text-accent mb-2">$ ./analyze_executive.sh --profile christopher_taylor</div>
-            <div className="text-muted-foreground mb-4">Processing capabilities...</div>
-            
-            <div className="space-y-2">
-              <div>
-                <span className="text-primary">✓</span> Strategic Leadership: $100M+ operational savings
-              </div>
-              <div>
-                <span className="text-primary">✓</span> AI Innovation: 75% efficiency increase
-              </div>
-              <div>
-                <span className="text-primary">✓</span> Global Expansion: Multi-continent operations
-              </div>
-              <div>
-                <span className="text-primary">✓</span> M&A Integration: Fortune 500 advisory
-              </div>
-              <div>
-                <span className="text-primary">✓</span> Venture Capital: Active fundraising leadership
-              </div>
+          {/* Stats Grid */}
+          <div className="grid md:grid-cols-3 gap-1 mb-16">
+            <div className="bg-white/5 border border-white/10 p-8 text-center hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl font-light mb-2">$100M+</div>
+              <div className="text-sm text-gray-400 uppercase tracking-wider">Operational Savings</div>
             </div>
-            
-            <div className="mt-4 text-accent">Analysis complete. Executive profile generated.</div>
-          </div>
-        </div>
-
-        {/* Contact Terminal */}
-        <div className="text-left max-w-2xl mx-auto animate-fade-in animation-delay-400">
-          <div className="bg-card border border-border rounded-lg p-6 font-mono text-sm">
-            <div className="text-accent mb-2">$ contact --executive christopher_taylor</div>
-            
-            <div className="space-y-1 text-muted-foreground">
-              <div>tel: 424-202-2836</div>
-              <div>email: ByChrisTaylor@icloud.com</div>
-              <div>linkedin: linkedin.com/in/keepingupwithchristaylor</div>
-              <div>status: available_for_consultation</div>
+            <div className="bg-white/5 border border-white/10 p-8 text-center hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl font-light mb-2">75%</div>
+              <div className="text-sm text-gray-400 uppercase tracking-wider">Efficiency Gains</div>
             </div>
-            
-            <div className="mt-4">
-              <span className="text-accent">$</span>
-              <span className="animate-pulse">_</span>
+            <div className="bg-white/5 border border-white/10 p-8 text-center hover:bg-white/10 transition-all duration-300">
+              <div className="text-4xl font-light mb-2">25+</div>
+              <div className="text-sm text-gray-400 uppercase tracking-wider">Years Experience</div>
             </div>
           </div>
-        </div>
 
-        {/* Floating Elements - Minimal */}
-        <div className="absolute top-1/4 left-1/4 w-px h-32 bg-border opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-px h-24 bg-border opacity-20 animate-pulse animation-delay-500"></div>
-        <div className="absolute top-1/3 right-1/4 w-24 h-px bg-border opacity-20 animate-pulse animation-delay-1000"></div>
+          {/* Core Capabilities */}
+          <div className="mb-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-light mb-4">CORE CAPABILITIES</h2>
+              <div className="w-24 h-px bg-white mx-auto"></div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="text-center p-6 border border-white/10 hover:border-white/30 transition-all duration-300">
+                <div className="text-lg font-light mb-2">AI Innovation</div>
+                <div className="text-sm text-gray-400">Strategic Implementation</div>
+              </div>
+              <div className="text-center p-6 border border-white/10 hover:border-white/30 transition-all duration-300">
+                <div className="text-lg font-light mb-2">Digital Transformation</div>
+                <div className="text-sm text-gray-400">Enterprise Scale</div>
+              </div>
+              <div className="text-center p-6 border border-white/10 hover:border-white/30 transition-all duration-300">
+                <div className="text-lg font-light mb-2">M&A Integration</div>
+                <div className="text-sm text-gray-400">Fortune 500 Advisory</div>
+              </div>
+              <div className="text-center p-6 border border-white/10 hover:border-white/30 transition-all duration-300">
+                <div className="text-lg font-light mb-2">Venture Capital</div>
+                <div className="text-sm text-gray-400">Active Fundraising</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Section */}
+          <div className="text-center">
+            <div className="inline-block">
+              <div className="text-sm font-mono text-gray-400 mb-4 tracking-wider">
+                CONNECT
+              </div>
+              <div className="space-y-2">
+                <div className="text-lg">424-202-2836</div>
+                <div className="text-lg">ByChrisTaylor@icloud.com</div>
+                <div className="text-sm text-gray-400">Available for Executive Consultation</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </section>
+
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-20 w-1 h-32 bg-white/20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-1 h-24 bg-white/20 animate-pulse" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-1/2 left-10 w-24 h-1 bg-white/20 animate-pulse" style={{animationDelay: '2s'}}></div>
+    </div>
   );
 }
