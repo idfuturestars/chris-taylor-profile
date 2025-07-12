@@ -2,58 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Executive Design System - AI-Inspired */
+/* Minimalist Black & White Design System - AI-Inspired */
 
 @layer base {
   :root {
-    /* Base Colors */
-    --background: 0 0% 98%;
-    --foreground: 215 25% 15%;
+    /* Base Colors - Pure B&W */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
     /* Cards & Surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 0 0% 0%;
 
-    /* Primary - Executive Blue */
-    --primary: 214 84% 56%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 214 84% 70%;
+    /* Primary - Pure Black */
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 0 0% 20%;
 
-    /* Secondary - Professional Gray */
-    --secondary: 215 16% 95%;
-    --secondary-foreground: 215 25% 15%;
+    /* Secondary - Light Gray */
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
 
     /* Muted Tones */
-    --muted: 215 16% 95%;
-    --muted-foreground: 215 13% 46%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
 
-    /* Accent - AI Green */
-    --accent: 142 76% 36%;
-    --accent-foreground: 0 0% 98%;
-    --accent-glow: 142 76% 50%;
+    /* Accent - Dark Gray */
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 0 0% 30%;
 
     /* Destructive */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 215 20% 88%;
-    --input: 215 20% 88%;
-    --ring: 214 84% 56%;
+    --border: 0 0% 90%;
+    --input: 0 0% 95%;
+    --ring: 0 0% 0%;
 
-    /* Executive Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-executive: linear-gradient(135deg, hsl(215 25% 15%), hsl(215 20% 25%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(215 16% 96%));
-    --gradient-ai: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    /* Minimalist Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 20%));
+    --gradient-executive: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 95%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 98%));
+    --gradient-ai: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 15%));
 
-    /* Professional Shadows */
-    --shadow-executive: 0 20px 40px -12px hsl(215 25% 15% / 0.15);
-    --shadow-card: 0 10px 30px -10px hsl(215 25% 15% / 0.1);
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+    /* Clean Shadows */
+    --shadow-executive: 0 20px 40px -12px hsl(0 0% 0% / 0.1);
+    --shadow-card: 0 4px 16px -4px hsl(0 0% 0% / 0.08);
+    --shadow-glow: 0 0 40px hsl(0 0% 0% / 0.2);
 
     /* Typography Scale */
     --font-executive: 'Inter', system-ui, sans-serif;
@@ -83,47 +83,47 @@
   }
 
   .dark {
-    /* Dark Executive Theme */
-    --background: 215 25% 8%;
-    --foreground: 0 0% 95%;
+    /* Dark B&W Theme - Inverted */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 215 20% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 215 20% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 214 84% 70%;
-    --primary-foreground: 215 25% 8%;
-    --primary-glow: 214 84% 80%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --primary-glow: 0 0% 80%;
 
-    --secondary: 215 20% 16%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 215 20% 16%;
-    --muted-foreground: 215 13% 65%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 142 76% 50%;
-    --accent-foreground: 215 25% 8%;
-    --accent-glow: 142 76% 60%;
+    --accent: 0 0% 85%;
+    --accent-foreground: 0 0% 0%;
+    --accent-glow: 0 0% 70%;
 
-    --destructive: 0 84% 70%;
-    --destructive-foreground: 215 25% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 215 20% 20%;
-    --input: 215 20% 20%;
-    --ring: 214 84% 70%;
+    --border: 0 0% 20%;
+    --input: 0 0% 10%;
+    --ring: 0 0% 100%;
 
     /* Dark Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-executive: linear-gradient(135deg, hsl(215 25% 8%), hsl(215 20% 15%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(215 20% 10%));
-    --gradient-ai: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 80%));
+    --gradient-executive: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 5%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 0%), hsl(0 0% 2%));
+    --gradient-ai: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 85%));
 
     /* Dark Shadows */
-    --shadow-executive: 0 20px 40px -12px hsl(0 0% 0% / 0.4);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+    --shadow-executive: 0 20px 40px -12px hsl(0 0% 100% / 0.1);
+    --shadow-card: 0 4px 16px -4px hsl(0 0% 100% / 0.08);
+    --shadow-glow: 0 0 40px hsl(0 0% 100% / 0.2);
 
     /* Sidebar */
     --sidebar-background: 215 25% 8%;
@@ -188,5 +188,30 @@
 
   .bg-gradient-ai {
     background: var(--gradient-ai);
+  }
+
+  /* Animation Delays */
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+  
+  .animation-delay-800 {
+    animation-delay: 800ms;
+  }
+  
+  .animation-delay-1000 {
+    animation-delay: 1000ms;
   }
 }
