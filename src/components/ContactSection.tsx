@@ -40,7 +40,7 @@ export function ContactSection() {
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <Mail className="h-4 w-4" />
-                  <span className="font-medium">ByChrisTaylor@icloud.com</span>
+                  <span className="font-medium">Christopher@ByChristopherTaylor.com</span>
                 </div>
               </div>
             </div>

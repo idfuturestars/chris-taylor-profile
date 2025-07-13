@@ -4,6 +4,7 @@ import { ExperienceTimeline } from "@/components/ExperienceTimeline";
 import { PortfolioSection } from "@/components/PortfolioSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { BlogSection } from "@/components/BlogSection";
+import { ContactSection } from "@/components/ContactSection";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <PortfolioSection />
       <TestimonialsSection />
       <BlogSection />
+      <ContactSection />
     </main>
   );
 };
