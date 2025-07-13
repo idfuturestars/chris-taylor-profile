@@ -67,7 +67,14 @@ Format the response as a JSON object with:
     }
 
     const data = await response.json();
-    const generatedContent = JSON.parse(data.choices[0].message.content);
+    let content = data.choices[0].message.content;
+    
+    // Remove markdown code blocks if present
+    if (content.includes('```json')) {
+      content = content.replace(/```json\s*/g, '').replace(/```\s*$/g, '');
+    }
+    
+    const generatedContent = JSON.parse(content);
 
     return new Response(JSON.stringify(generatedContent), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

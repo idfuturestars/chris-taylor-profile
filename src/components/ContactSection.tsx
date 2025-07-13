@@ -2,8 +2,51 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export function ContactSection() {
+  const { toast } = useToast();
+  const [isScheduling, setIsScheduling] = useState(false);
+
+  const handleScheduleSession = async () => {
+    setIsScheduling(true);
+    try {
+      const { error } = await supabase.functions.invoke('send-consultation-email', {
+        body: { type: 'schedule' }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Request Sent!",
+        description: "Christopher will contact you soon to schedule your executive strategy session.",
+      });
+    } catch (error) {
+      console.error('Error sending consultation request:', error);
+      toast({
+        title: "Request Failed",
+        description: "Please try contacting directly at christopher@bychristophertaylor.com",
+        variant: "destructive",
+      });
+    } finally {
+      setIsScheduling(false);
+    }
+  };
+
+  const handleLinkedInConnect = () => {
+    // You can update this with your actual LinkedIn URL
+    window.open('https://linkedin.com/in/christophertaylor', '_blank');
+  };
+
+  const handlePhoneCall = () => {
+    window.location.href = 'tel:424-202-2836';
+  };
+
+  const handleEmailContact = () => {
+    window.location.href = 'mailto:christopher@bychristophertaylor.com';
+  };
   return (
     <section className="py-24 px-6 bg-background relative">
       <div className="max-w-4xl mx-auto">
@@ -34,14 +77,20 @@ export function ContactSection() {
                 Schedule a strategic consultation to discuss your transformation goals.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center justify-center space-x-2">
+                <button 
+                  onClick={handlePhoneCall}
+                  className="flex items-center justify-center space-x-2 w-full hover:bg-white/10 transition-colors p-2 rounded"
+                >
                   <Phone className="h-4 w-4" />
                   <span className="font-medium">424-202-2836</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
+                </button>
+                <button 
+                  onClick={handleEmailContact}
+                  className="flex items-center justify-center space-x-2 w-full hover:bg-white/10 transition-colors p-2 rounded"
+                >
                   <Mail className="h-4 w-4" />
                   <span className="font-medium">Christopher@ByChristopherTaylor.com</span>
-                </div>
+                </button>
               </div>
             </div>
           </Card>
@@ -56,7 +105,11 @@ export function ContactSection() {
               <p className="text-muted-foreground mb-6">
                 Connect on LinkedIn for industry insights and strategic partnerships.
               </p>
-              <Button variant="outline" className="w-full hover:bg-primary hover:text-primary-foreground transition-smooth">
+              <Button 
+                variant="outline" 
+                className="w-full hover:bg-primary hover:text-primary-foreground transition-smooth"
+                onClick={handleLinkedInConnect}
+              >
                 <Linkedin className="h-4 w-4 mr-2" />
                 Connect on LinkedIn
               </Button>
@@ -67,9 +120,14 @@ export function ContactSection() {
         {/* Quick Actions */}
         <div className="text-center">
           <div className="inline-flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Button size="lg" className="bg-gradient-ai hover:shadow-glow transition-all duration-300 group">
+            <Button 
+              size="lg" 
+              className="bg-gradient-ai hover:shadow-glow transition-all duration-300 group"
+              onClick={handleScheduleSession}
+              disabled={isScheduling}
+            >
               <Calendar className="h-5 w-5 mr-2" />
-              Schedule Strategy Session
+              {isScheduling ? "Sending Request..." : "Schedule Strategy Session"}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             

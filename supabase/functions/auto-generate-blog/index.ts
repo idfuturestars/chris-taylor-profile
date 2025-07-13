@@ -89,7 +89,14 @@ Format the response as a JSON object with:
     }
 
     const data = await response.json();
-    const generatedContent = JSON.parse(data.choices[0].message.content);
+    let content = data.choices[0].message.content;
+    
+    // Remove markdown code blocks if present
+    if (content.includes('```json')) {
+      content = content.replace(/```json\s*/g, '').replace(/```\s*$/g, '');
+    }
+    
+    const generatedContent = JSON.parse(content);
 
     // Get all users to create blog posts for each
     const { data: profiles, error: profilesError } = await supabase
