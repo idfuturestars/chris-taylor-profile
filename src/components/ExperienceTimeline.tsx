@@ -10,7 +10,7 @@ const experiences = [
     achievements: [
       "Acting CTO/CDO for ID Future Stars international education services",
       "Building risc.ai trading platform with AI-driven predictive analytics",
-      "Generated $100M+ in operational savings through strategic AI implementations"
+      "Generated $3B+ in operational savings through strategic AI implementations"
     ],
     technologies: ["AI/ML Strategy", "Trading Platforms", "Education Technology"]
   },
