@@ -57,7 +57,7 @@ export function Hero() {
               </div>
               <div className="space-y-2">
                 <div className="text-lg font-light">424-202-2836</div>
-                <div className="text-lg font-light">ByChrisTaylor@icloud.com</div>
+                <div className="text-lg font-light">Christopher@ByChristopherTaylor.com</div>
                 <div className="text-sm text-gray-400">Available for Executive Consultation</div>
               </div>
             </div>

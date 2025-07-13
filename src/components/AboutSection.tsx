@@ -88,7 +88,7 @@ export function AboutSection() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-mono text-primary">Email:</span>
-                  <span>ByChrisTaylor@icloud.com</span>
+                  <span>Christopher@ByChristopherTaylor.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-mono text-primary">Status:</span>
