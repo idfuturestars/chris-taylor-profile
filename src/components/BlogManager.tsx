@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { RefreshCw, Wand2 } from 'lucide-react';
+import { RefreshCw, Wand2, Calendar } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
@@ -25,6 +25,56 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [customPrompt, setCustomPrompt] = useState('');
   const { toast } = useToast();
+
+  // Load blog posts from database on component mount
+  useEffect(() => {
+    loadBlogPosts();
+  }, []);
+
+  const loadBlogPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const formattedPosts = data?.map(post => ({
+        id: parseInt(post.id),
+        title: post.title,
+        excerpt: post.excerpt,
+        date: new Date(post.created_at).toISOString().split('T')[0],
+        readTime: post.read_time,
+        category: post.category,
+        content: post.content,
+      })) || [];
+
+      onUpdatePosts(formattedPosts);
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+    }
+  };
+
+  const saveBlogPost = async (blogPost: BlogPost) => {
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .insert({
+          title: blogPost.title,
+          excerpt: blogPost.excerpt,
+          content: blogPost.content,
+          read_time: blogPost.readTime,
+          category: blogPost.category,
+          user_id: (await supabase.auth.getUser()).data.user?.id || ''
+        });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error saving blog post:', error);
+      throw error;
+    }
+  };
 
   const generateContent = async (prompt: string, category: string = 'Technology Leadership') => {
     const { data, error } = await supabase.functions.invoke('generate-blog-content', {
@@ -63,12 +113,13 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
         content: generatedContent.content,
       };
 
-      const updatedPosts = [newPost, ...currentPosts];
-      onUpdatePosts(updatedPosts);
+      // Save to database and update local state
+      await saveBlogPost(newPost);
+      await loadBlogPosts(); // Reload from database to get the latest posts
 
       toast({
         title: "Article Generated",
-        description: "New blog article has been created successfully!",
+        description: "New blog article has been created and saved!",
       });
 
       setCustomPrompt('');
@@ -116,12 +167,13 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
         content: generatedContent.content,
       };
 
-      const updatedPosts = [newPost, ...currentPosts];
-      onUpdatePosts(updatedPosts);
+      // Save to database and update local state
+      await saveBlogPost(newPost);
+      await loadBlogPosts(); // Reload from database to get the latest posts
 
       toast({
         title: "Random Article Generated",
-        description: "A new random blog article has been created!",
+        description: "A new random blog article has been created and saved!",
       });
     } catch (error) {
       console.error('Error generating content:', error);
@@ -143,6 +195,16 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
         <p className="text-sm text-muted-foreground">
           AI-powered blog generation using secure OpenAI integration via Supabase Edge Functions.
         </p>
+        
+        <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg">
+          <Calendar className="w-4 h-4 text-primary" />
+          <div className="text-sm">
+            <strong className="text-foreground">Automatic Generation:</strong>
+            <span className="text-muted-foreground ml-1">
+              New articles generated every Monday at 9 AM based on your profile
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
