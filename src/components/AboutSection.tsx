@@ -4,7 +4,7 @@ const achievements = [
   {
     icon: TrendingUp,
     title: "Operational Excellence",
-    value: "$2b+",
+    value: "$2B+",
     description: "In documented operational savings through strategic AI implementation"
   },
   {
