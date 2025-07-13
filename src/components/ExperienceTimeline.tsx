@@ -21,7 +21,7 @@ const experiences = [
     location: "Global",
     description: "Extensive experience in financial technology, trading platforms, and regulatory compliance across major institutions.",
     achievements: [
-      "Led $100M+ OCC Resiliency project for large US Bank",
+      "Generated $2B+ operational savings through strategic transformations",
       "Built automated trading systems and currency forecasting platforms",
       "Morgan Stanley and major financial institutions consulting"
     ],
