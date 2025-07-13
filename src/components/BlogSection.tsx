@@ -1,6 +1,18 @@
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Calendar, Clock, ArrowRight, Settings } from "lucide-react";
+import { BlogManager } from "./BlogManager";
 
-const blogPosts = [
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  category: string;
+  content: string;
+}
+
+const initialBlogPosts: BlogPost[] = [
   {
     id: 1,
     title: "AI-Driven Trading Platforms: The $3B Opportunity in Predictive Analytics",
@@ -249,18 +261,50 @@ Through our partnership with **PasaJobs** (Philippines' largest referral-based j
 ];
 
 export function BlogSection() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialBlogPosts);
+  const [showManager, setShowManager] = useState(false);
+
+  useEffect(() => {
+    const savedPosts = localStorage.getItem('blog-posts');
+    if (savedPosts) {
+      setBlogPosts(JSON.parse(savedPosts));
+    }
+  }, []);
+
+  const handleUpdatePosts = (newPosts: BlogPost[]) => {
+    setBlogPosts(newPosts);
+    localStorage.setItem('blog-posts', JSON.stringify(newPosts));
+  };
+
   return (
     <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-6">
-            Latest <span className="text-muted-foreground">Insights</span>
-          </h2>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight">
+              Latest <span className="text-muted-foreground">Insights</span>
+            </h2>
+            <button
+              onClick={() => setShowManager(!showManager)}
+              className="p-2 rounded-lg border border-border hover:border-primary/20 transition-colors"
+              title="Manage Blog Content"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Strategic thoughts on AI, digital transformation, and technology leadership
           </p>
         </div>
+
+        {/* Blog Manager */}
+        {showManager && (
+          <BlogManager 
+            onUpdatePosts={handleUpdatePosts}
+            currentPosts={blogPosts}
+          />
+        )}
 
         {/* Blog Posts Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
