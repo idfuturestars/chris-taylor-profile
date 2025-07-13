@@ -192,7 +192,7 @@ Operating in both US and Asia with partnerships across:
 - **Government educational initiatives** (supporting national workforce development)
 - **University research programs** (collaborative AI curriculum development)
 - **Industry partners** (Google, NVIDIA, Dell for certification pathways)
-- **Employment platforms** (integration with PasaJobs for direct job placement)
+- **Employment platforms** (integration with Global HR/Jobs Company for direct job placement)
 
 ## Technology Architecture: Building for Scale
 
@@ -226,12 +226,12 @@ We're not just building another online learning platform. We're creating a **com
 
 1. **Identifies talent early** (K-12 AI readiness assessment)
 2. **Develops skills systematically** (Foundation → Immersion → Mastery pathways)  
-3. **Connects to employment directly** (partnership with PasaJobs and other platforms)
+3. **Connects to employment directly** (partnership with Global HR/Jobs Company and other platforms)
 4. **Measures outcomes continuously** (career progression tracking)
 
 ### Why This Matters: The Philippines Case Study
 
-Through our partnership with **PasaJobs** (Philippines' largest referral-based job platform), we're piloting a national education-to-employment pipeline:
+Through our partnership with **Global HR/Jobs Company** (major referral-based job platform), we're piloting a national education-to-employment pipeline:
 
 - **Government collaboration**: Working with educational ministries on curriculum standards
 - **University integration**: Embedding AI literacy into existing degree programs

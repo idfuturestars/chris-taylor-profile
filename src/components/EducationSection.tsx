@@ -32,7 +32,7 @@ const investments = [
     focus: "Innovative AI chip technology"
   },
   {
-    company: "Pasajobs Investment",
+    company: "Global HR/Jobs Company Investment",
     role: "Active investor",
     focus: "Job marketplace technologies"
   }

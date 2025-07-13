@@ -51,7 +51,7 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
         messages: [
           {
             role: 'system',
-            content: `You are Christopher Taylor, a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. You're currently Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars. Your expertise spans trading platforms (risc.ai), education technology, and strategic partnerships with companies like Globe Telecom (GCash). Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
+            content: `You are Christopher Taylor, a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. You're currently Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars. Your expertise spans trading platforms (risc.ai), education technology, and strategic partnerships with companies like Top Global Telecom and Fintech Firm. Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
           },
           {
             role: 'user',
@@ -150,7 +150,7 @@ Format the response as a JSON object with:
       "Building resilient cloud architectures for global financial services companies",
       "How predictive analytics is reshaping currency trading and risk management",
       "The evolution of education technology and AI-powered learning platforms",
-      "Strategic partnerships in fintech: Lessons from Globe Telecom and GCash collaboration",
+      "Strategic partnerships in fintech: Lessons from Top Global Telecom and Fintech Firm collaboration",
       "Implementing ITIL frameworks in semiconductor manufacturing environments",
       "The role of AI in disaster recovery and business continuity planning",
       "Scaling international education programs through technology platforms",
