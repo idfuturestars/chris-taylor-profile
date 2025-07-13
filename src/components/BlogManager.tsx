@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { RefreshCw, Key, Wand2, Save } from 'lucide-react';
+import { RefreshCw, Wand2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface BlogPost {
   id: number;
@@ -22,83 +22,23 @@ interface BlogManagerProps {
 }
 
 export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
-  const [apiKey, setApiKey] = useState(() => 
-    localStorage.getItem('openai-api-key') || ''
-  );
   const [isGenerating, setIsGenerating] = useState(false);
   const [customPrompt, setCustomPrompt] = useState('');
   const { toast } = useToast();
 
-  const saveApiKey = () => {
-    if (apiKey.trim()) {
-      localStorage.setItem('openai-api-key', apiKey.trim());
-      toast({
-        title: "API Key Saved",
-        description: "Your OpenAI API key has been saved securely in your browser.",
-      });
-    }
-  };
-
-  const generateContent = async (prompt: string, category: string) => {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4',
-        messages: [
-          {
-            role: 'system',
-            content: `You are Christopher Taylor, a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. You're currently Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars. Your expertise spans trading platforms (risc.ai), education technology, and strategic partnerships with companies like Top Global Telecom and Fintech Firm. Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
-          },
-          {
-            role: 'user',
-            content: `Write a comprehensive blog post about: ${prompt}. 
-
-Category: ${category}
-
-The blog post should:
-- Be 1000-1500 words
-- Include specific technical details and business insights
-- Reference your experience and current projects when relevant
-- Include actionable insights for executives and technical leaders
-- Use markdown formatting with proper headers
-- End with a call to action for potential collaborations
-
-Format the response as a JSON object with:
-{
-  "title": "Blog post title",
-  "excerpt": "2-3 sentence summary",
-  "content": "Full markdown content",
-  "readTime": "X min read"
-}`
-          }
-        ],
-        max_tokens: 3000,
-        temperature: 0.7,
-      }),
+  const generateContent = async (prompt: string, category: string = 'Technology Leadership') => {
+    const { data, error } = await supabase.functions.invoke('generate-blog-content', {
+      body: { prompt, category }
     });
 
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
+    if (error) {
+      throw new Error(error.message);
     }
 
-    const data = await response.json();
-    return JSON.parse(data.choices[0].message.content);
+    return data;
   };
 
   const handleGenerateArticle = async () => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "API Key Required",
-        description: "Please enter and save your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!customPrompt.trim()) {
       toast({
         title: "Prompt Required",
@@ -110,7 +50,7 @@ Format the response as a JSON object with:
 
     setIsGenerating(true);
     try {
-      const category = "Technology Leadership"; // Default category
+      const category = "Technology Leadership";
       const generatedContent = await generateContent(customPrompt, category);
       
       const newPost: BlogPost = {
@@ -136,7 +76,7 @@ Format the response as a JSON object with:
       console.error('Error generating content:', error);
       toast({
         title: "Generation Failed",
-        description: "Failed to generate article. Please check your API key and try again.",
+        description: "Failed to generate article. Please make sure your OpenAI API key is configured in Supabase secrets.",
         variant: "destructive",
       });
     } finally {
@@ -161,15 +101,6 @@ Format the response as a JSON object with:
     const randomTopic = topics[Math.floor(Math.random() * topics.length)];
     setCustomPrompt(randomTopic);
     
-    if (!apiKey.trim()) {
-      toast({
-        title: "API Key Required",
-        description: "Please enter and save your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsGenerating(true);
     try {
       const category = "Technology Leadership";
@@ -196,7 +127,7 @@ Format the response as a JSON object with:
       console.error('Error generating content:', error);
       toast({
         title: "Generation Failed",
-        description: "Failed to generate article. Please check your API key and try again.",
+        description: "Failed to generate article. Please make sure your OpenAI API key is configured in Supabase secrets.",
         variant: "destructive",
       });
     } finally {
@@ -208,27 +139,12 @@ Format the response as a JSON object with:
     <Card className="p-6 mb-8">
       <h3 className="text-lg font-semibold mb-4">Blog Content Manager</h3>
       
-      {/* API Key Section */}
       <div className="space-y-4 mb-6">
-        <div className="flex gap-2">
-          <Input
-            type="password"
-            placeholder="Enter your OpenAI API key"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            className="flex-1"
-          />
-          <Button onClick={saveApiKey} size="sm">
-            <Key className="w-4 h-4 mr-2" />
-            Save Key
-          </Button>
-        </div>
         <p className="text-sm text-muted-foreground">
-          Your API key is stored securely in your browser and never sent to our servers.
+          AI-powered blog generation using secure OpenAI integration via Supabase Edge Functions.
         </p>
       </div>
 
-      {/* Content Generation */}
       <div className="space-y-4">
         <Textarea
           placeholder="Enter a topic or prompt for a new blog article (e.g., 'AI trends in fintech', 'Digital transformation case studies', etc.)"
