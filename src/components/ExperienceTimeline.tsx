@@ -6,13 +6,15 @@ const experiences = [
     title: "Co-Founder & CTO",
     company: "The Sikat Agency / ID Future Stars",
     location: "Los Angeles, CA",
-    description: "Leading AI strategy and digital transformation for global education technology and trading platform development.",
+    description: "Leading strategic alliance between The Sikat Agency, ID Future Stars, PasaJob, and Globe Telecom (GCash) to transform education-to-employment pathways and drive fintech adoption.",
     achievements: [
-      "Acting CTO/CDO for ID Future Stars international education services",
-      "Building risc.ai trading platform with AI-driven predictive analytics",
+      "Acting CTO/CDO for ID Future Stars international education services with live programs in US and Asia",
+      "Developing risc.ai automated trading platform with AI-driven predictive analytics and currency forecasting",
+      "Strategic collaboration with Globe Telecom (GCash) for integrated financial literacy programs",
+      "Leading AI-driven assessment and personalized career matching across partner platforms",
       "Generated $2B+ in operational savings through strategic AI implementations"
     ],
-    technologies: ["AI/ML Strategy", "Trading Platforms", "Education Technology"]
+    technologies: ["AI/ML Trading Platforms", "Education Technology", "Strategic Partnerships", "Fintech Integration"]
   },
   {
     period: "1999 - 2020",
