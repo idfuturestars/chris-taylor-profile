@@ -37,7 +37,7 @@ export function Hero() {
             {/* Key Stats */}
             <div className="grid grid-cols-3 gap-8 py-8 border-t border-b border-white/20">
               <div>
-                <div className="text-3xl font-light">$100M+</div>
+                <div className="text-3xl font-light">$2b+</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Operational Savings</div>
               </div>
               <div>

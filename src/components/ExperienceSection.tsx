@@ -36,7 +36,7 @@ const experiences = [
     location: "Global",
     highlights: [
       "Advised C-suite executives from JP Morgan, Shell, and Morgan Stanley",
-      "Achieved over $100M in operational savings",
+      "Achieved over $2B in operational savings",
       "Led M&A due diligence and integration processes",
       "Facilitated critical venture capital engagements"
     ],

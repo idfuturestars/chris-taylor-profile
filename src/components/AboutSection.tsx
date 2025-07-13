@@ -4,7 +4,7 @@ const achievements = [
   {
     icon: TrendingUp,
     title: "Operational Excellence",
-    value: "$100M+",
+    value: "$2b+",
     description: "In documented operational savings through strategic AI implementation"
   },
   {
@@ -66,7 +66,7 @@ export function AboutSection() {
               
               <p>
                 As Co-Founder of The Sikat Agency, I've led digital transformation initiatives 
-                that have generated over $100 million in operational savings for Fortune 500 companies. 
+                that have generated over $2 billion in operational savings for Fortune 500 companies.
                 My approach combines deep technical expertise with strategic business acumen to 
                 create sustainable competitive advantages.
               </p>

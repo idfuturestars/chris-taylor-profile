@@ -128,7 +128,7 @@ export function TestimonialsSection() {
             <div className="text-sm text-muted-foreground">Client Satisfaction</div>
           </div>
           <div>
-            <div className="text-3xl font-light text-primary mb-2">$100M+</div>
+            <div className="text-3xl font-light text-primary mb-2">$2b+</div>
             <div className="text-sm text-muted-foreground">Total Savings Generated</div>
           </div>
           <div>

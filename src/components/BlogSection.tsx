@@ -67,13 +67,13 @@ We're currently raising seed funding to:
   },
   {
     id: 2,
-    title: "From $100M Savings to Global Impact: Digital Transformation at Scale",
+    title: "From $2B Savings to Global Impact: Digital Transformation at Scale",
     excerpt: "Case study analysis of enterprise digital transformations I've led, spanning insurance, semiconductor, and financial services—revealing the blueprint for achieving operational excellence through strategic technology implementation.",
     date: "2024-11-28",
     readTime: "12 min read",
     category: "Digital Transformation",
     content: `
-# From $100M Savings to Global Impact: Digital Transformation at Scale
+# From $2B Savings to Global Impact: Digital Transformation at Scale
 
 Over the past decade, I've led digital transformation initiatives that generated **$3B+ in operational savings** across Fortune 500 companies. Here's the blueprint that consistently delivers results.
 
