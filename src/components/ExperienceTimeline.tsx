@@ -4,58 +4,41 @@ const experiences = [
   {
     period: "2020 - Present",
     title: "Co-Founder & CTO",
-    company: "The Sikat Agency",
+    company: "The Sikat Agency / ID Future Stars",
     location: "Los Angeles, CA",
-    description: "Leading digital transformation initiatives for Fortune 500 companies, specializing in AI strategy implementation and organizational change management.",
+    description: "Leading AI strategy and digital transformation for global education technology and trading platform development.",
     achievements: [
-      "Generated over $100M in operational savings through strategic AI implementations",
-      "Led cross-functional teams of 50+ technical professionals across multiple concurrent projects",
-      "Developed proprietary frameworks for enterprise AI adoption and change management",
-      "Established strategic partnerships with leading technology vendors and consulting firms"
+      "Acting CTO/CDO for ID Future Stars international education services",
+      "Building risc.ai trading platform with AI-driven predictive analytics",
+      "Generated $100M+ in operational savings through strategic AI implementations"
     ],
-    technologies: ["AI/ML Strategy", "Enterprise Architecture", "Change Management", "Executive Advisory"]
+    technologies: ["AI/ML Strategy", "Trading Platforms", "Education Technology"]
   },
   {
-    period: "2018 - 2020",
-    title: "Senior Technology Strategist",
-    company: "Enterprise Technology Solutions",
-    location: "Los Angeles, CA",
-    description: "Specialized in large-scale digital transformation projects for healthcare and financial services organizations.",
+    period: "1999 - 2020",
+    title: "Financial Services & Fintech",
+    company: "25+ Years Industry Experience",
+    location: "Global",
+    description: "Extensive experience in financial technology, trading platforms, and regulatory compliance across major institutions.",
     achievements: [
-      "Architected cloud migration strategies for organizations with 10,000+ employees",
-      "Reduced operational costs by 40% through process automation and AI integration",
-      "Led security and compliance initiatives for highly regulated industries",
-      "Mentored emerging technology leaders and established best practices"
+      "Led $100M+ OCC Resiliency project for large US Bank",
+      "Built automated trading systems and currency forecasting platforms",
+      "Morgan Stanley and major financial institutions consulting"
     ],
-    technologies: ["Cloud Architecture", "Process Automation", "Compliance", "Team Leadership"]
+    technologies: ["Trading Systems", "Regulatory Compliance", "Risk Management"]
   },
   {
-    period: "2015 - 2018",
-    title: "Director of Innovation",
-    company: "Future Tech Consulting",
-    location: "Los Angeles, CA",
-    description: "Drove innovation initiatives and emerging technology adoption for mid-market and enterprise clients.",
+    period: "2010 - 2019",
+    title: "Enterprise Technology Transformation",
+    company: "Fortune 500 Consulting",
+    location: "Global",
+    description: "Large-scale digital transformation across insurance, semiconductor, consumer products, and retail industries.",
     achievements: [
-      "Established innovation labs and rapid prototyping capabilities",
-      "Led adoption of emerging technologies including IoT, blockchain, and early AI tools",
-      "Built strategic technology roadmaps for 25+ client organizations",
-      "Developed training programs for technology leadership development"
+      "Led global transitions spanning 6+ countries for semiconductor and retail giants",
+      "Managed $40M+ cost savings through cloud migration and process optimization",
+      "Built hybrid cloud solutions with Azure and O365 integration"
     ],
-    technologies: ["Innovation Strategy", "Emerging Tech", "IoT", "Blockchain"]
-  },
-  {
-    period: "2010 - 2015",
-    title: "Senior Systems Architect",
-    company: "Global Technology Partners",
-    location: "Los Angeles, CA",
-    description: "Designed and implemented enterprise-scale technology solutions with focus on scalability and performance.",
-    achievements: [
-      "Architected systems supporting millions of daily transactions",
-      "Led technical teams through complex system integrations and migrations",
-      "Established development methodologies and quality assurance processes",
-      "Reduced system downtime by 85% through proactive monitoring and optimization"
-    ],
-    technologies: ["Systems Architecture", "Performance Optimization", "Integration", "Quality Assurance"]
+    technologies: ["Cloud Migration", "ITIL", "ServiceNow", "Global Operations"]
   }
 ];
 
