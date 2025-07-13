@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, Clock, ArrowRight, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import { BlogManager } from "./BlogManager";
 
 interface BlogPost {
@@ -351,10 +352,10 @@ export function BlogSection() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button className="inline-flex items-center gap-2 text-lg font-light text-foreground hover:text-primary transition-colors group">
+          <Link to="/blog" className="inline-flex items-center gap-2 text-lg font-light text-foreground hover:text-primary transition-colors group">
             View All Articles
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

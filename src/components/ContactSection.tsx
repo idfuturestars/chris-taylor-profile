@@ -2,39 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function ContactSection() {
-  const { toast } = useToast();
-  const [isScheduling, setIsScheduling] = useState(false);
-
-  const handleScheduleSession = async () => {
-    setIsScheduling(true);
-    try {
-      const { error } = await supabase.functions.invoke('send-consultation-email', {
-        body: { type: 'schedule' }
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Request Sent!",
-        description: "Christopher will contact you soon to schedule your executive strategy session.",
-      });
-    } catch (error) {
-      console.error('Error sending consultation request:', error);
-      toast({
-        title: "Request Failed",
-        description: "Please try contacting directly at christopher@bychristophertaylor.com",
-        variant: "destructive",
-      });
-    } finally {
-      setIsScheduling(false);
-    }
-  };
-
   const handleLinkedInConnect = () => {
     // You can update this with your actual LinkedIn URL
     window.open('https://linkedin.com/in/christophertaylor', '_blank');
@@ -120,16 +90,16 @@ export function ContactSection() {
         {/* Quick Actions */}
         <div className="text-center">
           <div className="inline-flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Button 
-              size="lg" 
-              className="bg-gradient-ai hover:shadow-glow transition-all duration-300 group"
-              onClick={handleScheduleSession}
-              disabled={isScheduling}
-            >
-              <Calendar className="h-5 w-5 mr-2" />
-              {isScheduling ? "Sending Request..." : "Schedule Strategy Session"}
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/contact">
+              <Button 
+                size="lg" 
+                className="bg-gradient-ai hover:shadow-glow transition-all duration-300 group"
+              >
+                <Calendar className="h-5 w-5 mr-2" />
+                Schedule Strategy Session
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             
             <div className="flex items-center space-x-2 text-muted-foreground">
               <MapPin className="h-4 w-4" />
