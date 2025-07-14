@@ -14,6 +14,11 @@ import {
 
 const expertiseAreas = [
   {
+    icon: Lock,
+    title: "Fortress Shield - Exclusive Asset Protection",
+    description: "Elite offshore asset protection service utilizing strategic jurisdictions (TBF - examples: Cook Islands, Bermuda, Nevis, Cayman Islands). Sophisticated legal structures for maximum privacy and security. Custom pricing for this exclusive service."
+  },
+  {
     icon: Brain,
     title: "Strategic Digital Transformation & AI Innovation",
     description: "Leading organizations through comprehensive digital evolution and AI implementation strategies."
@@ -52,11 +57,6 @@ const expertiseAreas = [
     icon: Zap,
     title: "Innovation & Startup Acceleration",
     description: "Strategic mentoring and acceleration programs for emerging technology ventures."
-  },
-  {
-    icon: Lock,
-    title: "Fortress Shield - Exclusive Asset Protection",
-    description: "Elite offshore asset protection service utilizing strategic jurisdictions (TBF - examples: Cook Islands, Bermuda, Nevis, Cayman Islands). Sophisticated legal structures for maximum privacy and security. Custom pricing for this exclusive service."
   }
 ];
 
