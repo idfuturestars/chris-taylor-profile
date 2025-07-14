@@ -8,7 +8,8 @@ import {
   Users, 
   Megaphone, 
   Shield,
-  Zap 
+  Zap,
+  Lock
 } from "lucide-react";
 
 const expertiseAreas = [
@@ -51,6 +52,11 @@ const expertiseAreas = [
     icon: Zap,
     title: "Innovation & Startup Acceleration",
     description: "Mentoring startups and driving innovation in emerging technology sectors."
+  },
+  {
+    icon: Lock,
+    title: "Fortress Shield - Offshore Asset Protection",
+    description: "Comprehensive offshore asset protection using Nevis LLCs, Cook Islands Trusts, and sophisticated legal structures to safeguard personal and business assets from litigation while ensuring maximum privacy and security."
   }
 ];
 
