@@ -55,8 +55,8 @@ const expertiseAreas = [
   },
   {
     icon: Lock,
-    title: "Fortress Shield - Offshore Asset Protection",
-    description: "Comprehensive offshore asset protection using Nevis LLCs, Cook Islands Trusts, and sophisticated legal structures to safeguard personal and business assets from litigation while ensuring maximum privacy and security."
+    title: "Fortress Shield - Exclusive Asset Protection",
+    description: "Elite offshore asset protection service using Nevis LLCs, Cook Islands Trusts, and sophisticated legal structures. Provides maximum privacy and security for high-net-worth individuals and businesses. Custom pricing available for this exclusive service."
   }
 ];
 
