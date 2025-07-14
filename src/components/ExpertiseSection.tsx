@@ -16,42 +16,42 @@ const expertiseAreas = [
   {
     icon: Brain,
     title: "Strategic Digital Transformation & AI Innovation",
-    description: "Leading AI-driven initiatives and comprehensive digital transformations for scalable growth."
+    description: "Leading organizations through comprehensive digital evolution and AI implementation strategies."
   },
   {
     icon: Globe,
     title: "Executive Leadership & Global Expansion",
-    description: "Proven success in international market expansion and cross-cultural strategic leadership."
+    description: "Strategic guidance for international growth and cross-border business development."
   },
   {
     icon: Building2,
     title: "Corporate Structuring & Governance",
-    description: "Expert in corporate architecture, compliance frameworks, and governance optimization."
+    description: "Optimizing corporate architecture and implementing robust governance frameworks."
   },
   {
     icon: TrendingUp,
     title: "Mergers & Acquisitions Integration",
-    description: "Executed strategic acquisitions and seamless M&A integration processes."
+    description: "Strategic transaction advisory and seamless post-merger integration processes."
   },
   {
     icon: Users,
     title: "Investor Relations & Fundraising",
-    description: "Secured significant venture capital funding and managed high-impact investor engagements."
+    description: "Capital raising strategies and sophisticated investor engagement programs."
   },
   {
     icon: Megaphone,
     title: "PR & Strategic Communications",
-    description: "Led major PR campaigns featured on prominent networks, enhancing brand and investor appeal."
+    description: "High-impact communications strategies to enhance brand positioning and stakeholder relations."
   },
   {
     icon: Shield,
     title: "Technology & Cybersecurity Leadership",
-    description: "Advanced cybersecurity strategies and technology infrastructure optimization."
+    description: "Advanced technology infrastructure and comprehensive security strategy implementation."
   },
   {
     icon: Zap,
     title: "Innovation & Startup Acceleration",
-    description: "Mentoring startups and driving innovation in emerging technology sectors."
+    description: "Strategic mentoring and acceleration programs for emerging technology ventures."
   },
   {
     icon: Lock,
