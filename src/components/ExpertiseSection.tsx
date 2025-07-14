@@ -56,7 +56,7 @@ const expertiseAreas = [
   {
     icon: Lock,
     title: "Fortress Shield - Exclusive Asset Protection",
-    description: "Elite offshore asset protection service using Nevis LLCs, Cook Islands Trusts, and sophisticated legal structures. Provides maximum privacy and security for high-net-worth individuals and businesses. Custom pricing available for this exclusive service."
+    description: "Elite offshore asset protection service utilizing strategic jurisdictions (TBF - examples: Cook Islands, Bermuda, Nevis, Cayman Islands). Sophisticated legal structures for maximum privacy and security. Custom pricing for this exclusive service."
   }
 ];
 
