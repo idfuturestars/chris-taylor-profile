@@ -16,7 +16,7 @@ const expertiseAreas = [
   {
     icon: Lock,
     title: "Fortress Shield - Exclusive Asset Protection",
-    description: "Elite offshore asset protection service utilizing strategic jurisdictions (TBF - examples: Cook Islands, Bermuda, Nevis, Cayman Islands). Sophisticated legal structures for maximum privacy and security. Custom pricing for this exclusive service."
+    description: "Elite offshore asset protection service utilizing strategic jurisdictions (TBD - examples: Cook Islands, Bermuda, Nevis, Cayman Islands). Sophisticated legal structures for maximum privacy and security. Custom pricing for this exclusive service."
   },
   {
     icon: Brain,
