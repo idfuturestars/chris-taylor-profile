@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 
 export function ContactSection() {
   const handleLinkedInConnect = () => {
-    // You can update this with your actual LinkedIn URL
-    window.open('https://linkedin.com/in/christophertaylor', '_blank');
+    window.open('https://www.linkedin.com/in/keepingupwithchristaylor/', '_blank');
   };
 
   const handlePhoneCall = () => {
