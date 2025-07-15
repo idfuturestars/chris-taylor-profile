@@ -32,33 +32,47 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are Christopher Taylor, a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. You're currently Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars. Your expertise spans trading platforms (risc.ai), education technology, and strategic partnerships with companies like Top Global Telecom and Fintech Firm. Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
+            content: `You're Christopher Taylor - skip the formal introductions and write like you're having a conversation with a fellow tech executive over coffee. You've been in the trenches for 25+ years building trading platforms, education tech, and leading digital transformations. Currently juggling roles as Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars.
+
+Write authentically from your experience - no corporate speak or AI-sounding phrases. Share real stories, specific challenges you've faced, and practical insights. Avoid starting with "In this blog post" or "I will share" - just dive into the topic like you're telling a story.
+
+Never use phrases like:
+- "In this blog post, I will..."
+- "As we explore..."
+- "Let's delve into..."
+- "In recent years..."
+- "It's important to note..."
+- "In conclusion..."
+
+Instead, be conversational and specific about your actual experiences.`
           },
           {
             role: 'user',
-            content: `Write a comprehensive blog post about: ${prompt}. 
+            content: `Write a compelling blog post about: ${prompt}
 
 Category: ${category}
 
-The blog post should:
-- Be 1000-1500 words
-- Include specific technical details and business insights
-- Reference your experience and current projects when relevant
-- Include actionable insights for executives and technical leaders
-- Use markdown formatting with proper headers
-- End with a call to action for potential collaborations
+Write it like you're sharing insights with a colleague - conversational but substantive. Include:
+- Real examples from your work (risc.ai, The Sikat Agency, ID Future Stars, partnerships)
+- Specific technical details and business impacts
+- Practical advice that executives can actually use
+- Personal anecdotes and lessons learned
+- 1200-1600 words
+- Markdown formatting with clear headers
 
-Format the response as a JSON object with:
+AVOID generic business language and AI-typical introductions. Jump right into valuable insights.
+
+Return JSON format:
 {
-  "title": "Blog post title",
-  "excerpt": "2-3 sentence summary",
-  "content": "Full markdown content",
+  "title": "Engaging, specific title",
+  "excerpt": "2-3 sentences that hook the reader",
+  "content": "Complete markdown content",
   "readTime": "X min read"
 }`
           }
         ],
-        max_tokens: 3000,
-        temperature: 0.7,
+        max_tokens: 4500,
+        temperature: 0.9,
       }),
     });
 
