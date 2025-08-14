@@ -1,273 +1,370 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import { Lightbulb, BookOpen, Target } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Brain, Target, TrendingUp, MessageCircle, Lightbulb, ChevronRight } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import ChatLayout from "@/components/layout/ChatLayout";
 
-interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
+interface CoachingResponse {
   content: string;
-  timestamp: Date;
-  metadata?: {
-    subject?: string;
-    difficulty?: number;
-    concepts?: string[];
-    badges?: string[];
-  };
+  improvements: string[];
+  nextSteps: string[];
+  engagementLevel: string;
 }
 
 interface TutoringSession {
   id: string;
-  sessionType: "khan_style_lesson" | "adaptive_practice" | "project_mode" | "diagnostic";
+  sessionType: string;
   subject: string;
-  gradeLevel: string;
-  currentEiQScore: number;
-  targetEiQScore: number;
-  masteryLevel: string;
-  learningGaps: string[];
-  progressToday: number;
-  progressOverall: number;
-  focusAreas: string[];
-  progressMetrics: {
-    questionsAnswered: number;
-    correctAnswers: number;
-    hintsUsed: number;
-    timeSpent: number;
-  };
+  currentEiQScore: string;
+  targetEiQScore: string;
+  improvementPlan: any;
+  conversationHistory: any[];
+  learningGaps: any;
+  progressMetrics: any;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
-interface AITutor {
-  id: string;
-  name: string;
-  avatar: string;
-  personality: string;
-  specializations: string[];
-  greeting: string;
-  teachingStyle: string;
-}
-
-const sampleSession: TutoringSession = {
-  id: "session-1",
-  sessionType: "khan_style_lesson",
-  subject: "mathematics",
-  gradeLevel: "6-8",
-  currentEiQScore: 485,
-  targetEiQScore: 550,
-  masteryLevel: "familiar",
-  learningGaps: ["algebraic reasoning", "word problems", "fraction operations"],
-  progressToday: 65,
-  progressOverall: 78,
-  focusAreas: ["Linear Equations", "Problem Solving", "Mathematical Reasoning"],
-  progressMetrics: {
-    questionsAnswered: 12,
-    correctAnswers: 9,
-    hintsUsed: 3,
-    timeSpent: 45
-  }
-};
-
-const tutors: AITutor[] = [
-  {
-    id: "aria-math",
-    name: "Aria",
-    avatar: "🧮",
-    personality: "encouraging",
-    specializations: ["mathematics", "algebra", "geometry"],
-    greeting: "Hi! I'm excited to help you master mathematics today!",
-    teachingStyle: "step-by-step with encouragement"
-  },
-  {
-    id: "elena-science",
-    name: "Elena",
-    avatar: "🔬",
-    personality: "curious",
-    specializations: ["science", "physics", "chemistry"],
-    greeting: "Let's explore the fascinating world of science together!",
-    teachingStyle: "inquiry-based learning"
-  },
-  {
-    id: "marcus-lang",
-    name: "Marcus",
-    avatar: "📚",
-    personality: "patient",
-    specializations: ["language arts", "writing", "literature"],
-    greeting: "Ready to dive into language and expand your communication skills?",
-    teachingStyle: "socratic method"
-  }
-];
 
 export default function AITutor() {
-  const [selectedTutor] = useState(tutors[0]);
-  const [sessionMode, setSessionMode] = useState<"lesson" | "practice" | "help">("lesson");
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: "Hello! I'm Aria, your math tutor. I see you're working on improving your EiQ score from 485 to 550. That's fantastic! Let's start with some algebra practice. What would you like to work on today?",
-      timestamp: new Date(),
-      metadata: {
-        badges: ["Mathematics", "Algebra", "EiQ Assessment"]
-      }
-    }
-  ]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [message, setMessage] = useState("");
+  const [learningGoal, setLearningGoal] = useState("");
+  const [sessionType, setSessionType] = useState("personalized_coaching");
+  const [subject, setSubject] = useState("mathematics");
+  const queryClient = useQueryClient();
 
-  const sendMessageMutation = useMutation({
-    mutationFn: async (message: string) => {
-      const response = await apiRequest("POST", "/api/ai/tutor-chat", {
-        message,
-        tutorId: selectedTutor.id,
-        sessionMode,
-        sessionData: sampleSession
-      });
-      return response;
-    },
-    onSuccess: (response) => {
-      const newMessage: ChatMessage = {
-        id: Date.now().toString(),
-        role: "assistant",
-        content: response.message,
-        timestamp: new Date(),
-        metadata: response.metadata
-      };
-      setMessages(prev => [...prev, newMessage]);
-      setIsTyping(false);
-    },
-    onError: () => {
-      setIsTyping(false);
+  const { data: activeSession, isLoading: sessionLoading } = useQuery({
+    queryKey: ["/api/ai-tutoring/sessions/active"],
+    refetchInterval: 5000 // Refresh every 5 seconds for real-time updates
+  });
+
+  const { data: sessions } = useQuery({
+    queryKey: ["/api/ai-tutoring/sessions"]
+  });
+
+  const createSessionMutation = useMutation({
+    mutationFn: (data: any) => apiRequest("POST", "/api/ai-tutoring/sessions", data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/ai-tutoring/sessions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/ai-tutoring/sessions/active"] });
     }
   });
 
-  const handleSendMessage = (message: string) => {
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      role: "user",
-      content: message,
-      timestamp: new Date()
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
-    setIsTyping(true);
-    sendMessageMutation.mutate(message);
+  const coachingMutation = useMutation({
+    mutationFn: (data: { message: string; learningGoal: string }) => 
+      apiRequest("POST", `/api/ai-tutoring/sessions/${(activeSession as any)?.id}/coach`, data),
+    onSuccess: () => {
+      setMessage("");
+      queryClient.invalidateQueries({ queryKey: ["/api/ai-tutoring/sessions/active"] });
+    }
+  });
+
+  const startNewSession = () => {
+    createSessionMutation.mutate({
+      sessionType,
+      subject,
+      currentEiQScore: "85.5", // This would come from user's current assessment
+      targetEiQScore: "95.0",
+      improvementPlan: {
+        focus_areas: ["advanced_reasoning", "pattern_recognition"],
+        estimated_timeline: "4_weeks",
+        weekly_goals: ["Complete 15 practice problems", "Master 3 new concepts"]
+      },
+      conversationHistory: [],
+      learningGaps: {
+        identified_weaknesses: ["complex_algebraic_manipulation", "geometric_proofs"],
+        strength_areas: ["basic_arithmetic", "logical_reasoning"]
+      },
+      progressMetrics: {
+        totalInteractions: 0,
+        engagementLevel: "high",
+        conceptsMastered: 0
+      },
+      aiProvider: "openai"
+    });
   };
 
-  // Create sidebar navigation
-  const sidebarNav = (
-    <ScrollArea className="flex-1">
-      <div className="space-y-2 p-4">
-        <div className="text-center mb-6">
-          <div className="text-4xl mb-2">{selectedTutor.avatar}</div>
-          <div className="font-medium text-gray-900 dark:text-white">{selectedTutor.name}</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">AI Learning Assistant</div>
-          <div className="flex justify-center space-x-2 mt-2">
-            <Badge variant="secondary" className="text-xs">EiQ: {sampleSession.currentEiQScore}</Badge>
-            <Badge variant="outline" className="text-xs">Target: {sampleSession.targetEiQScore}</Badge>
-          </div>
-        </div>
+  const sendMessage = () => {
+    if (!message.trim() || !learningGoal.trim()) return;
+    coachingMutation.mutate({ message, learningGoal });
+  };
 
-        <div className="space-y-1">
-          <Button
-            variant={sessionMode === "lesson" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => setSessionMode("lesson")}
-          >
-            <BookOpen className="w-4 h-4 mr-3" />
-            Lesson Mode
-          </Button>
-          <Button
-            variant={sessionMode === "practice" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => setSessionMode("practice")}
-          >
-            <Target className="w-4 h-4 mr-3" />
-            Practice Mode
-          </Button>
-          <Button
-            variant={sessionMode === "help" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => setSessionMode("help")}
-          >
-            <Lightbulb className="w-4 h-4 mr-3" />
-            Help Mode
-          </Button>
-        </div>
-
-        <Separator className="my-4" />
-
-        <div className="space-y-3">
-          <div className="text-sm font-medium text-gray-900 dark:text-white">Session Progress</div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-400">Today's Goal</span>
-              <span className="font-medium">{sampleSession.progressToday}%</span>
-            </div>
-            <Progress value={sampleSession.progressToday} className="h-2" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-400">Overall Progress</span>
-              <span className="font-medium">{sampleSession.progressOverall}%</span>
-            </div>
-            <Progress value={sampleSession.progressOverall} className="h-2" />
-          </div>
-        </div>
-
-        <Separator className="my-4" />
-
-        <div className="space-y-3">
-          <div className="text-sm font-medium text-gray-900 dark:text-white">Focus Areas</div>
-          <div className="space-y-1">
-            {sampleSession.focusAreas.map((area, index) => (
-              <div key={index} className="text-sm text-gray-600 dark:text-gray-400 py-1">
-                • {area}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <Separator className="my-4" />
-
-        <div className="space-y-3">
-          <div className="text-sm font-medium text-gray-900 dark:text-white">Session Stats</div>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 rounded">
-              <div className="font-medium">{sampleSession.progressMetrics.questionsAnswered}</div>
-              <div className="text-gray-600 dark:text-gray-400">Questions</div>
-            </div>
-            <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 rounded">
-              <div className="font-medium">
-                {Math.round((sampleSession.progressMetrics.correctAnswers / sampleSession.progressMetrics.questionsAnswered) * 100)}%
-              </div>
-              <div className="text-gray-600 dark:text-gray-400">Accuracy</div>
-            </div>
-            <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 rounded">
-              <div className="font-medium">{sampleSession.progressMetrics.hintsUsed}</div>
-              <div className="text-gray-600 dark:text-gray-400">Hints</div>
-            </div>
-            <div className="text-center p-2 bg-gray-100 dark:bg-gray-700 rounded">
-              <div className="font-medium">{sampleSession.progressMetrics.timeSpent}m</div>
-              <div className="text-gray-600 dark:text-gray-400">Time</div>
-            </div>
-          </div>
+  if (sessionLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       </div>
-    </ScrollArea>
-  );
+    );
+  }
 
   return (
-    <ChatLayout
-      title={`AI Tutor - ${selectedTutor.name}`}
-      subtitle={`Personalized learning in ${sessionMode} mode • ${selectedTutor.greeting}`}
-      messages={messages}
-      onSendMessage={handleSendMessage}
-      isLoading={isTyping}
-      sidebar={sidebarNav}
-    />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">AI EiQ™ Tutor</h2>
+          <p className="text-muted-foreground">Personalized coaching to improve your EiQ™ score</p>
+        </div>
+        {!activeSession && (
+          <Button onClick={startNewSession} disabled={createSessionMutation.isPending} className="bg-primary hover:bg-primary/90">
+            <Brain className="w-4 h-4 mr-2" />
+            Start Coaching Session
+          </Button>
+        )}
+      </div>
+
+      {!activeSession && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Configure Your Tutoring Session</CardTitle>
+            <CardDescription>Choose your focus area and learning objectives</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Session Type</Label>
+                <Select value={sessionType} onValueChange={setSessionType}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="personalized_coaching">Personalized Coaching</SelectItem>
+                    <SelectItem value="skill_improvement">Skill Improvement</SelectItem>
+                    <SelectItem value="concept_review">Concept Review</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Subject Focus</Label>
+                <Select value={subject} onValueChange={setSubject}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mathematics">Mathematics</SelectItem>
+                    <SelectItem value="reasoning">Applied Reasoning</SelectItem>
+                    <SelectItem value="ai_concepts">AI Concepts</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeSession && (activeSession as any) && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Coaching Interface */}
+          <div className="lg:col-span-2 space-y-4">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Brain className="w-5 h-5 text-primary" />
+                      Active Coaching Session
+                    </CardTitle>
+                    <CardDescription>
+                      {(activeSession as any).subject} • {(activeSession as any).sessionType.replace('_', ' ')}
+                    </CardDescription>
+                  </div>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                    {(activeSession as any).status}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-96 w-full rounded-md border p-4 mb-4">
+                  {(activeSession as any).conversationHistory?.length > 0 ? (
+                    <div className="space-y-4">
+                      {(activeSession as any).conversationHistory.map((msg: any, idx: number) => (
+                        <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                          <div className={`max-w-[80%] rounded-lg p-3 ${
+                            msg.role === 'user' 
+                              ? 'bg-primary text-primary-foreground' 
+                              : 'bg-muted'
+                          }`}>
+                            <p className="text-sm">{msg.content}</p>
+                            {msg.improvementSuggestions && (
+                              <div className="mt-3 space-y-2">
+                                <div className="flex items-center gap-2 text-xs">
+                                  <Lightbulb className="w-3 h-3" />
+                                  <span className="font-medium">Improvement Suggestions:</span>
+                                </div>
+                                <ul className="text-xs space-y-1 pl-4">
+                                  {msg.improvementSuggestions.map((suggestion: string, i: number) => (
+                                    <li key={i} className="flex items-center gap-1">
+                                      <ChevronRight className="w-3 h-3" />
+                                      {suggestion}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-muted-foreground">
+                      <div className="text-center">
+                        <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                        <p>Start a conversation with your AI tutor</p>
+                      </div>
+                    </div>
+                  )}
+                </ScrollArea>
+                
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="learningGoal">Current Learning Goal</Label>
+                    <Input
+                      id="learningGoal"
+                      value={learningGoal}
+                      onChange={(e) => setLearningGoal(e.target.value)}
+                      placeholder="e.g., Improve algebraic reasoning, Master geometric proofs..."
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="message">Ask your AI tutor</Label>
+                    <Textarea
+                      id="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Ask for help, explanation, or guidance on your learning journey..."
+                      rows={3}
+                    />
+                  </div>
+                  <Button 
+                    onClick={sendMessage} 
+                    disabled={coachingMutation.isPending || !message.trim() || !learningGoal.trim()}
+                    className="w-full"
+                  >
+                    {coachingMutation.isPending ? "Coaching..." : "Get AI Coaching"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Progress Sidebar */}
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5" />
+                  EiQ™ Progress
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Current EiQ™</span>
+                    <span className="font-medium">{(activeSession as any).currentEiQScore}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Target EiQ™</span>
+                    <span className="font-medium">{(activeSession as any).targetEiQScore}</span>
+                  </div>
+                  <Progress 
+                    value={(parseFloat((activeSession as any).currentEiQScore) / parseFloat((activeSession as any).targetEiQScore)) * 100} 
+                    className="h-2" 
+                  />
+                </div>
+                <Separator />
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Session Metrics</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="text-center p-2 rounded bg-muted">
+                      <div className="font-medium">{(activeSession as any).progressMetrics?.totalInteractions || 0}</div>
+                      <div className="text-muted-foreground">Interactions</div>
+                    </div>
+                    <div className="text-center p-2 rounded bg-muted">
+                      <div className="font-medium capitalize">{(activeSession as any).progressMetrics?.engagementLevel || 'High'}</div>
+                      <div className="text-muted-foreground">Engagement</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {(activeSession as any).learningGaps && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <TrendingUp className="w-4 h-4" />
+                    Learning Focus
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {(activeSession as any).learningGaps.identified_weaknesses && (
+                    <div>
+                      <h4 className="text-xs font-medium text-orange-600 dark:text-orange-400 mb-1">Areas to Improve</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {(activeSession as any).learningGaps.identified_weaknesses.map((weakness: string, idx: number) => (
+                          <Badge key={idx} variant="outline" className="text-xs">
+                            {weakness.replace(/_/g, ' ')}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(activeSession as any).learningGaps.strength_areas && (
+                    <div>
+                      <h4 className="text-xs font-medium text-green-600 dark:text-green-400 mb-1">Strengths</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {(activeSession as any).learningGaps.strength_areas.map((strength: string, idx: number) => (
+                          <Badge key={idx} variant="secondary" className="text-xs">
+                            {strength.replace(/_/g, ' ')}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Session History */}
+      {sessions && (sessions as any)?.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Previous Sessions</CardTitle>
+            <CardDescription>Your coaching history and progress over time</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {(sessions as any).slice(0, 5).map((session: TutoringSession) => (
+                <div key={session.id} className="flex items-center justify-between p-3 rounded-lg border">
+                  <div>
+                    <div className="font-medium capitalize">{session.subject} • {session.sessionType.replace('_', ' ')}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {new Date(session.createdAt).toLocaleDateString()} • 
+                      {session.progressMetrics?.totalInteractions || 0} interactions
+                    </div>
+                  </div>
+                  <Badge variant={session.status === 'completed' ? 'default' : 'secondary'}>
+                    {session.status}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }
