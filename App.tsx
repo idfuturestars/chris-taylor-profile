@@ -31,6 +31,12 @@ import PublicAPIPage from "@/pages/public-api";
 import ViralChallengePage from "@/pages/viral-challenge";
 import MultiModalAssessment from "@/pages/multi-modal-assessment";
 import SocialEIQPage from "@/pages/social-eiq";
+import DeveloperPortal from "@/pages/developer-portal";
+import EnhancedViralChallenge from "@/pages/enhanced-viral-challenge";
+import SocialCollaboration from "@/pages/social-collaboration";
+import EnhancedRoleModelMatching from "@/pages/enhanced-role-model-matching";
+import AIMetaLearning from "@/pages/ai-meta-learning";
+import AdminAnalyticsPage from "@/pages/admin-analytics";
 import RoleModelMatching from "@/pages/role-model-matching";
 import CustomQuestionsStaff from "@/pages/custom-questions-staff";
 import CustomQuestionsStudent from "@/pages/custom-questions-student";
@@ -77,10 +83,16 @@ function AuthenticatedApp() {
       <Route path="/staff" component={StaffDashboard} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/api" component={PublicAPIPage} />
+      <Route path="/developer-portal" component={DeveloperPortal} />
       <Route path="/challenge" component={ViralChallengePage} />
+      <Route path="/enhanced-challenge" component={EnhancedViralChallenge} />
       <Route path="/multi-modal" component={MultiModalAssessment} />
       <Route path="/social" component={SocialEIQPage} />
+      <Route path="/social-collaboration" component={SocialCollaboration} />
       <Route path="/role-models" component={RoleModelMatching} />
+      <Route path="/enhanced-role-models" component={EnhancedRoleModelMatching} />
+      <Route path="/ai-meta-learning" component={AIMetaLearning} />
+      <Route path="/admin-analytics" component={AdminAnalyticsPage} />
       <Route path="/custom-questions-staff" component={CustomQuestionsStaff} />
       <Route path="/custom-questions-student" component={CustomQuestionsStudent} />
       <Route path="/choose-level" component={EducationLevelSelector} />
