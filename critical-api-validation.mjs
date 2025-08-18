@@ -27,9 +27,12 @@ const API_TESTS = [
   },
   {
     name: 'Open EIQ API - Assessment by ID',
-    url: '/api/eiq/assess/test_assessment_123',
+    url: '/api/eiq/assessment/test_assessment_123?x-api-key=test-key-validation',
     method: 'GET',
-    headers: { 'Authorization': JWT_TOKEN },
+    headers: { 
+      'Authorization': JWT_TOKEN,
+      'x-api-key': 'test-key-validation'
+    },
     expectedKeys: ['assessmentId', 'status'],
     critical: true
   },
