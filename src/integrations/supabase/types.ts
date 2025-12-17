@@ -7,10 +7,10 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -45,6 +45,45 @@ export type Database = {
           id?: string
           read_time?: string
           title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      company_map: {
+        Row: {
+          color: string
+          created_at: string
+          department: string
+          employee_count: number
+          id: string
+          position_x: number
+          position_y: number
+          position_z: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          department: string
+          employee_count?: number
+          id?: string
+          position_x?: number
+          position_y?: number
+          position_z?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          department?: string
+          employee_count?: number
+          id?: string
+          position_x?: number
+          position_y?: number
+          position_z?: number
           updated_at?: string
           user_id?: string
         }
@@ -91,6 +130,136 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      meeting_recordings: {
+        Row: {
+          ai_action_items: Json | null
+          ai_key_topics: Json | null
+          ai_summary: string | null
+          created_at: string
+          duration: number | null
+          file_path: string
+          id: string
+          meeting_id: string
+          transcription: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_action_items?: Json | null
+          ai_key_topics?: Json | null
+          ai_summary?: string | null
+          created_at?: string
+          duration?: number | null
+          file_path: string
+          id?: string
+          meeting_id: string
+          transcription?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_action_items?: Json | null
+          ai_key_topics?: Json | null
+          ai_summary?: string | null
+          created_at?: string
+          duration?: number | null
+          file_path?: string
+          id?: string
+          meeting_id?: string
+          transcription?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_recordings_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          meeting_type: string
+          room_id: string
+          scheduled_at: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          meeting_type?: string
+          room_id: string
+          scheduled_at?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          meeting_type?: string
+          room_id?: string
+          scheduled_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_read: boolean
+          meeting_id: string | null
+          message_type: string
+          priority: string
+          sender_name: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          meeting_id?: string | null
+          message_type?: string
+          priority?: string
+          sender_name: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          meeting_id?: string | null
+          message_type?: string
+          priority?: string
+          sender_name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
