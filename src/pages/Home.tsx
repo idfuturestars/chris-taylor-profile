@@ -2,7 +2,7 @@ import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Shield, Brain, Users, ArrowRight, Lock, Network, Eye, FileCheck } from "lucide-react";
-
+import OnePagerDownload from "@/components/OnePagerDownload";
 export default function Home() {
   return (
     <Layout>
@@ -269,6 +269,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* One-Pager Download */}
+      <OnePagerDownload />
+
       {/* CTA */}
       <section className="section-tight">
         <div className="container-wide">
@@ -280,14 +283,9 @@ export default function Home() {
               If you're evaluating a zero‑trust enforcement approach, planning identity 
               modernization, or exploring responsible AI platforms, I'm open to the right conversations.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg">
-                <Link to="/contact">Request a Briefing</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/contact">Download One‑Pager</Link>
-              </Button>
-            </div>
+            <Button asChild size="lg">
+              <Link to="/contact">Request a Briefing</Link>
+            </Button>
           </div>
         </div>
       </section>
