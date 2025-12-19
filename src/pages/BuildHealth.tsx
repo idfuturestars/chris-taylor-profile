@@ -190,11 +190,11 @@ const BuildHealth = () => {
   const overallStatus = failCount > 0 ? "fail" : warnCount > 0 ? "warn" : "pass";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-950 font-sans">
       <div className="container-wide py-8">
         <div className="mb-8">
           <Link to="/">
-            <Button variant="ghost" size="sm" className="mb-4">
+            <Button variant="ghost" size="sm" className="mb-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -202,12 +202,12 @@ const BuildHealth = () => {
           
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Build Health</h1>
-              <p className="text-muted-foreground mt-1">
+              <h1 className="text-3xl font-bold text-slate-100">Build Health</h1>
+              <p className="text-slate-400 mt-1">
                 Runtime checks for application integrity
               </p>
             </div>
-            <Button onClick={runChecks} disabled={isRunning} variant="outline">
+            <Button onClick={runChecks} disabled={isRunning} variant="outline" className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100">
               <RefreshCw className={`h-4 w-4 mr-2 ${isRunning ? "animate-spin" : ""}`} />
               Re-run Checks
             </Button>
@@ -215,7 +215,7 @@ const BuildHealth = () => {
         </div>
 
         {/* Summary Card */}
-        <Card className={`mb-6 border-l-4 ${
+        <Card className={`mb-6 border-l-4 bg-slate-900 border-slate-800 ${
           overallStatus === "pass" ? "border-l-green-500" : 
           overallStatus === "warn" ? "border-l-yellow-500" : "border-l-red-500"
         }`}>
@@ -229,28 +229,28 @@ const BuildHealth = () => {
                   <StatusIcon status={isRunning ? "running" : overallStatus} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold">
+                  <h2 className="text-xl font-semibold text-slate-100">
                     {isRunning ? "Running checks..." : 
                      overallStatus === "pass" ? "All Systems Operational" :
                      overallStatus === "warn" ? "Minor Issues Detected" : "Build Issues Found"}
                   </h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-slate-400">
                     {lastRun ? `Last run: ${lastRun.toLocaleTimeString()}` : "Running..."}
                   </p>
                 </div>
               </div>
               <div className="flex gap-6 text-sm">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-500">{passCount}</div>
-                  <div className="text-muted-foreground">Passed</div>
+                  <div className="text-2xl font-bold text-green-400">{passCount}</div>
+                  <div className="text-slate-500">Passed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-500">{warnCount}</div>
-                  <div className="text-muted-foreground">Warnings</div>
+                  <div className="text-2xl font-bold text-yellow-400">{warnCount}</div>
+                  <div className="text-slate-500">Warnings</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-red-500">{failCount}</div>
-                  <div className="text-muted-foreground">Failed</div>
+                  <div className="text-2xl font-bold text-red-400">{failCount}</div>
+                  <div className="text-slate-500">Failed</div>
                 </div>
               </div>
             </div>
@@ -258,33 +258,33 @@ const BuildHealth = () => {
         </Card>
 
         {/* Check Results */}
-        <Card>
+        <Card className="bg-slate-900 border-slate-800">
           <CardHeader>
-            <CardTitle className="text-lg">Check Results</CardTitle>
+            <CardTitle className="text-lg text-slate-100">Check Results</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-1">
               {checks.map((check, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors"
+                  className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-slate-800/50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <StatusIcon status={check.status} />
                     <div>
-                      <div className="font-medium text-foreground">{check.name}</div>
-                      <div className="text-sm text-muted-foreground">{check.message}</div>
+                      <div className="font-medium text-slate-200">{check.name}</div>
+                      <div className="text-sm text-slate-400">{check.message}</div>
                     </div>
                   </div>
                   {check.duration !== undefined && (
-                    <div className="text-xs text-muted-foreground font-mono">
+                    <div className="text-xs text-slate-500 font-mono">
                       {check.duration}ms
                     </div>
                   )}
                 </div>
               ))}
               {checks.length === 0 && (
-                <div className="flex items-center justify-center py-8 text-muted-foreground">
+                <div className="flex items-center justify-center py-8 text-slate-400">
                   <Loader2 className="h-5 w-5 mr-2 animate-spin" />
                   Running checks...
                 </div>
@@ -294,13 +294,13 @@ const BuildHealth = () => {
         </Card>
 
         {/* Info Footer */}
-        <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border">
-          <h3 className="font-medium text-foreground mb-2">About This Page</h3>
-          <p className="text-sm text-muted-foreground">
+        <div className="mt-6 p-4 bg-slate-900/50 rounded-lg border border-slate-800">
+          <h3 className="font-medium text-slate-200 mb-2">About This Page</h3>
+          <p className="text-sm text-slate-400">
             This page performs runtime checks to verify that critical modules and dependencies
             are loaded correctly. It does not replace a full CI/CD pipeline but provides quick
             visibility into application health. For complete type-checking, run{" "}
-            <code className="bg-muted px-1 py-0.5 rounded text-xs">npx tsc --noEmit</code> locally.
+            <code className="bg-slate-800 px-1 py-0.5 rounded text-xs text-slate-300">npx tsc --noEmit</code> locally.
           </p>
         </div>
       </div>
