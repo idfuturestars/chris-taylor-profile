@@ -1,48 +1,19 @@
 import { Layout } from "@/components/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-
-const insights = [
-  {
-    title: "Closed-by-default: why enforcement beats alert fatigue",
-    description: "Traditional security tools flood teams with alerts. A closed-by-default posture flips the model—only allowing what's explicitly justified.",
-    category: "Zero-Trust",
-  },
-  {
-    title: "Identity sprawl is an attack surface—model it like one",
-    description: "When identity infrastructure grows organically, it creates lateral movement opportunities. Treating identity as a first-class security domain changes everything.",
-    category: "Identity",
-  },
-  {
-    title: "From graphs to governance: making security decisions auditable",
-    description: "Graph-based ontologies don't just improve detection—they make every security decision traceable and explainable.",
-    category: "Architecture",
-  },
-  {
-    title: "DNS resilience as a security primitive",
-    description: "DNS is often an afterthought in security architecture. But DNS-layer controls can provide powerful enforcement without endpoint agents.",
-    category: "Infrastructure",
-  },
-  {
-    title: "Federated learning for security: safer shared intelligence",
-    description: "How to improve detection models across organizations without centralizing sensitive data or creating new privacy risks.",
-    category: "AI/ML",
-  },
-  {
-    title: "Responsible AI in high-stakes systems: logging, limits, and oversight",
-    description: "When AI makes decisions that affect access, opportunity, or security, accountability mechanisms aren't optional—they're foundational.",
-    category: "Responsible AI",
-  },
-];
+import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { getAllBlogPosts } from "@/data/blogPosts";
 
 export default function Insights() {
+  const posts = getAllBlogPosts();
+
   return (
     <Layout>
       {/* Hero */}
-      <section className="section bg-gradient-to-b from-muted/30 to-background">
+      <section className="section bg-gradient-to-b from-card to-background">
         <div className="container-wide">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">
+            <span className="label-caps mb-4 block">Pulse Insight</span>
+            <h1 className="text-4xl md:text-5xl font-serif font-semibold tracking-tight text-foreground mb-4">
               Insights
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -53,41 +24,118 @@ export default function Insights() {
         </div>
       </section>
 
+      {/* Featured Post */}
+      {posts.length > 0 && (
+        <section className="section-tight">
+          <div className="container-wide">
+            <Link 
+              to={`/insights/${posts[0].slug}`}
+              className="block trust-card group hover:border-primary/30 transition-all"
+            >
+              <div className="flex flex-wrap gap-2 mb-4">
+                {posts[0].tags.slice(0, 3).map((tag, i) => (
+                  <span key={i} className="label-caps">{tag}</span>
+                ))}
+              </div>
+              <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                {posts[0].title}
+              </h2>
+              <p className="text-muted-foreground mb-4 max-w-2xl">
+                {posts[0].excerpt}
+              </p>
+              <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
+                <span className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {new Date(posts[0].date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {posts[0].readTime}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-primary">
+                <span>Read article</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* Articles Grid */}
+      {posts.length > 1 && (
+        <section className="section-tight bg-card">
+          <div className="container-wide">
+            <h2 className="text-xl font-serif font-semibold text-foreground mb-8">
+              More Insights
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {posts.slice(1).map((post) => (
+                <Link 
+                  key={post.slug}
+                  to={`/insights/${post.slug}`}
+                  className="trust-card group hover:border-primary/30 transition-all"
+                >
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {post.tags.slice(0, 2).map((tag, i) => (
+                      <span key={i} className="text-xs font-medium text-primary uppercase tracking-wider">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-lg font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">{post.readTime}</span>
+                    <div className="flex items-center gap-2 text-primary">
+                      <span>Read</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Coming Soon Queue */}
       <section className="section-tight">
         <div className="container-wide">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {insights.map((insight, index) => (
-              <article 
-                key={index} 
-                className="trust-card group hover:border-primary/30 transition-colors"
-              >
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                    {insight.category}
-                  </span>
-                </div>
-                <h2 className="text-lg font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {insight.title}
-                </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {insight.description}
-                </p>
-                <div className="flex items-center gap-2 text-sm text-primary">
-                  <span>Coming soon</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </article>
+          <h2 className="text-xl font-serif font-semibold text-foreground mb-8">
+            Coming Soon
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
+            {[
+              "Port Gating as a Control Plane: Designing Zero‑Trust That Doesn't Break Operations",
+              "Ontology Before Tooling: Why Modeling the System Comes First",
+              "The Cost of Identity Sprawl—and the Controls That Reduce It",
+              "DNS Resilience as a Security Primitive",
+              "Why Explainability Is an Operational Requirement, Not a Marketing Feature",
+              "Risk Scoring That Doesn't Lie: How to Weight Reality"
+            ].map((title, i) => (
+              <div key={i} className="flex items-start gap-3 p-4 rounded-lg border border-border bg-card/50">
+                <div className="w-2 h-2 rounded-full bg-primary/40 mt-2 flex-shrink-0" />
+                <span className="text-sm text-muted-foreground">{title}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-tight bg-muted/30">
+      <section className="section-tight bg-card">
         <div className="container-wide">
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-4">
               Want to discuss these topics?
             </h2>
             <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
