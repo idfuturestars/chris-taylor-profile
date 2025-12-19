@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/prime-radiant-guard", label: "Prime Radiant Guard™" },
   { href: "/eiq", label: "EIQ™" },
   { href: "/idfs", label: "IDFS™" },
-  { href: "/nil-collective", label: "NIL Collective™" },
+  { href: "/id-collective", label: "ID Collective™" },
   { href: "/governance", label: "Governance" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },

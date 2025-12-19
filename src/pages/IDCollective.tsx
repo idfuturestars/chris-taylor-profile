@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, FileCheck, Users, Scale, AlertTriangle } from "lucide-react";
 
-export default function NILCollective() {
+export default function IDCollective() {
   return (
     <Layout>
       <Helmet>
-        <title>NIL Collective™ | TaylorVentureLab™</title>
+        <title>ID Collective™ | TaylorVentureLab™</title>
         <meta name="description" content="A compliance-forward pathway studio for athlete and creator talent—focused on long-term brand value, education, and ethical opportunity design." />
-        <link rel="canonical" href="https://bychristophertaylor.com/nil-collective" />
+        <link rel="canonical" href="https://www.idnilcollective.com" />
       </Helmet>
 
       {/* Hero */}
@@ -19,7 +19,7 @@ export default function NILCollective() {
           <div className="max-w-3xl">
             <span className="label-caps mb-4 block">Talent Pathways</span>
             <h1 className="text-4xl md:text-5xl font-serif font-semibold tracking-tight text-foreground mb-4">
-              NIL Collective™
+              ID Collective™
             </h1>
             <p className="text-xl text-muted-foreground mb-6">
               A compliance-forward pathway studio for athlete and creator talent.
@@ -88,7 +88,7 @@ export default function NILCollective() {
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <h2 className="text-2xl font-serif font-semibold text-foreground mb-6">
-                What NIL Collective™ is
+                What ID Collective™ is
               </h2>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
@@ -120,7 +120,7 @@ export default function NILCollective() {
             
             <div>
               <h2 className="text-2xl font-serif font-semibold text-foreground mb-6">
-                What NIL Collective™ is not
+                What ID Collective™ is not
               </h2>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
@@ -160,7 +160,7 @@ export default function NILCollective() {
             Interested in a conversation?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            NIL Collective™ operates on a private, vetted basis. If you're an athlete, creator, 
+            ID Collective™ operates on a private, vetted basis. If you're an athlete, creator, 
             institution, or advisor interested in compliance-forward pathways, request a briefing.
           </p>
           <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">

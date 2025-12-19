@@ -9,7 +9,7 @@ import About from "./pages/About";
 import PrimeRadiantGuard from "./pages/PrimeRadiantGuard";
 import EIQ from "./pages/EIQ";
 import IDFS from "./pages/IDFS";
-import NILCollective from "./pages/NILCollective";
+import IDCollective from "./pages/IDCollective";
 import Governance from "./pages/Governance";
 import Insights from "./pages/Insights";
 import BlogPost from "./pages/BlogPost";
@@ -55,7 +55,7 @@ const App = () => (
             <Route path="/eiq" element={<EIQ />} />
             <Route path="/educational-intelligence" element={<EIQ />} />
             <Route path="/idfs" element={<IDFS />} />
-            <Route path="/nil-collective" element={<NILCollective />} />
+            <Route path="/id-collective" element={<IDCollective />} />
             <Route path="/governance" element={<Governance />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/insights/:slug" element={<BlogPost />} />

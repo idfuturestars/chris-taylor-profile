@@ -134,7 +134,7 @@ export default function Disclaimer() {
             </h2>
             <p className="text-muted-foreground mb-6">
               TaylorVentureLab™ and its associated programs, including ID Future Stars™ (IDFS™) and 
-              NIL Collective™, do not guarantee any outcomes, placements, admissions, NIL deals, 
+              ID Collective™, do not guarantee any outcomes, placements, admissions, NIL deals, 
               employment, or financial results.
             </p>
             <p className="text-muted-foreground mb-6">

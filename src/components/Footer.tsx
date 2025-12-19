@@ -40,8 +40,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/nil-collective" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  NIL Collective™
+                <Link to="/id-collective" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  ID Collective™
                 </Link>
               </li>
               <li>
@@ -112,7 +112,7 @@ export function Footer() {
               © {new Date().getFullYear()} TaylorVentureLab™. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground text-center md:text-right max-w-xl">
-              TaylorVentureLab™, Prime Radiant Guard™, EIQ™, IDFS™, NIL Collective™, ID Collective™, 
+              TaylorVentureLab™, Prime Radiant Guard™, EIQ™, IDFS™, ID Collective™, 
               and Alteria™ are trademarks of TaylorVentureLab™. All other trademarks are the property 
               of their respective owners.
             </p>
