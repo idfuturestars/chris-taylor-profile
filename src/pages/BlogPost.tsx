@@ -3,6 +3,7 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, Tag, Share2, Mail, Twitter, Linkedin } from "lucide-react";
 import { getBlogPost } from "@/data/blogPosts";
 import { Helmet } from "react-helmet-async";
+import { formatInlineMarkdown, escapeHtml } from "@/lib/sanitize";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -12,7 +13,7 @@ export default function BlogPost() {
     return <Navigate to="/insights" replace />;
   }
 
-  // Convert markdown-style formatting to JSX
+  // Convert markdown-style formatting to JSX with XSS protection
   const renderContent = (content: string) => {
     const lines = content.split('\n');
     const elements: React.ReactNode[] = [];
@@ -25,7 +26,7 @@ export default function BlogPost() {
         elements.push(
           <ListTag key={elements.length} className={listType === 'ul' ? 'list-disc list-inside space-y-2 my-4 text-muted-foreground' : 'list-decimal list-inside space-y-2 my-4 text-muted-foreground'}>
             {currentList.map((item, i) => (
-              <li key={i} dangerouslySetInnerHTML={{ __html: formatInline(item) }} />
+              <li key={i} dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item) }} />
             ))}
           </ListTag>
         );
@@ -34,27 +35,22 @@ export default function BlogPost() {
       }
     };
 
-    const formatInline = (text: string): string => {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/`(.+?)`/g, '<code class="bg-muted px-1 py-0.5 rounded text-sm">$1</code>');
-    };
-
     lines.forEach((line, i) => {
-      // Headers
+      // Headers - escape content but allow safe formatting
       if (line.startsWith('## ')) {
         flushList();
+        const headerText = escapeHtml(line.replace('## ', ''));
         elements.push(
           <h2 key={i} className="text-2xl font-serif font-semibold text-foreground mt-10 mb-4">
-            {line.replace('## ', '')}
+            {headerText}
           </h2>
         );
       } else if (line.startsWith('### ')) {
         flushList();
+        const headerText = escapeHtml(line.replace('### ', ''));
         elements.push(
           <h3 key={i} className="text-xl font-serif font-semibold text-foreground mt-8 mb-3">
-            {line.replace('### ', '')}
+            {headerText}
           </h3>
         );
       }
@@ -82,14 +78,14 @@ export default function BlogPost() {
       else if (line.trim() === '') {
         flushList();
       }
-      // Regular paragraph
+      // Regular paragraph - sanitize with formatInlineMarkdown
       else {
         flushList();
         elements.push(
           <p 
             key={i} 
             className="text-muted-foreground leading-relaxed my-4"
-            dangerouslySetInnerHTML={{ __html: formatInline(line) }}
+            dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(line) }}
           />
         );
       }
@@ -115,6 +111,9 @@ export default function BlogPost() {
       "url": "https://taylorventurelab.com"
     }
   };
+
+  // Use a stable URL for sharing (without relying on window.location during SSR)
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   return (
     <Layout>
@@ -185,7 +184,7 @@ export default function BlogPost() {
                   Share
                 </span>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
@@ -194,7 +193,7 @@ export default function BlogPost() {
                   <Twitter className="w-4 h-4" />
                 </a>
                 <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
@@ -203,7 +202,7 @@ export default function BlogPost() {
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a
-                  href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(`Check out this article: ${window.location.href}`)}`}
+                  href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(`Check out this article: ${shareUrl}`)}`}
                   className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
                   aria-label="Share via Email"
                 >

@@ -4,9 +4,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.5';
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -34,13 +32,52 @@ serve(async (req) => {
   }
 
   try {
-    console.log('Auto-generating weekly blog article...');
+    // Extract and verify JWT from Authorization header
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.error('Missing or invalid Authorization header');
+      return new Response(JSON.stringify({ error: 'Unauthorized: Missing authorization token' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Create Supabase client with user's JWT (not service role)
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    });
+
+    // Verify user is authenticated
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    if (userError || !user) {
+      console.error('Invalid user token:', userError?.message);
+      return new Response(JSON.stringify({ error: 'Unauthorized: Invalid token' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Check if user is admin using RLS-protected function
+    const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin');
+    if (adminError || !isAdmin) {
+      console.error('User is not admin:', adminError?.message);
+      return new Response(JSON.stringify({ error: 'Forbidden: Admin access required' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('Admin user verified, generating blog article...');
 
     if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Select a random topic based on Christopher Taylor's profile
+    // Select a random topic based on profile
     const randomTopic = profileBasedTopics[Math.floor(Math.random() * profileBasedTopics.length)];
     
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -54,7 +91,7 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are Christopher Taylor, a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. You're currently Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars. Your expertise spans trading platforms (risc.ai), education technology, and strategic partnerships with companies like Top Global Telecom and Fintech Firm. Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
+            content: `You are a senior technology executive with 25+ years of experience in digital transformation, AI strategy, and enterprise architecture. Write in a professional, insightful tone that demonstrates deep technical and business knowledge.`
           },
           {
             role: 'user',
@@ -65,10 +102,9 @@ Category: Technology Leadership
 The blog post should:
 - Be 1000-1500 words
 - Include specific technical details and business insights
-- Reference your experience and current projects when relevant
 - Include actionable insights for executives and technical leaders
 - Use markdown formatting with proper headers
-- End with a call to action for potential collaborations
+- End with a call to action
 
 Format the response as a JSON object with:
 {
@@ -98,40 +134,29 @@ Format the response as a JSON object with:
     
     const generatedContent = JSON.parse(content);
 
-    // Get all users to create blog posts for each
-    const { data: profiles, error: profilesError } = await supabase
-      .from('profiles')
-      .select('id');
-
-    if (profilesError) {
-      console.error('Error fetching profiles:', profilesError);
-      throw profilesError;
-    }
-
-    // Insert blog post for each user
-    const blogPosts = profiles.map(profile => ({
-      user_id: profile.id,
-      title: generatedContent.title,
-      excerpt: generatedContent.excerpt,
-      content: generatedContent.content,
-      read_time: generatedContent.readTime,
-      category: 'Technology Leadership'
-    }));
-
+    // Insert blog post for the authenticated admin user
+    // RLS will enforce that only admins can insert
     const { error: insertError } = await supabase
       .from('blog_posts')
-      .insert(blogPosts);
+      .insert({
+        user_id: user.id,
+        title: generatedContent.title,
+        excerpt: generatedContent.excerpt,
+        content: generatedContent.content,
+        read_time: generatedContent.readTime,
+        category: 'Technology Leadership'
+      });
 
     if (insertError) {
-      console.error('Error inserting blog posts:', insertError);
+      console.error('Error inserting blog post:', insertError);
       throw insertError;
     }
 
-    console.log(`Successfully generated and inserted ${blogPosts.length} blog posts`);
+    console.log('Successfully generated and inserted blog post');
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: `Generated ${blogPosts.length} blog posts`,
+      message: 'Generated blog post successfully',
       topic: randomTopic
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

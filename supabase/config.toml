@@ -1,7 +1,10 @@
 project_id = "hxuxucbzytrhgcfjhkma"
 
 [functions.generate-blog-content]
-verify_jwt = false
+verify_jwt = true
 
 [functions.auto-generate-blog]
+verify_jwt = true
+
+[functions.send-consultation-email]
 verify_jwt = false

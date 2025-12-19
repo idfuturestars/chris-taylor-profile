@@ -17,6 +17,31 @@ interface ConsultationRequest {
   message?: string;
 }
 
+// Input validation and sanitization
+function sanitizeInput(input: string | undefined, maxLength: number = 500): string {
+  if (!input) return "Not provided";
+  // Remove HTML tags, limit length, and escape special characters
+  return input
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/[<>&"']/g, (char) => {
+      const escapeMap: Record<string, string> = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '&': '&amp;',
+        '"': '&quot;',
+        "'": '&#x27;'
+      };
+      return escapeMap[char] || char;
+    })
+    .substring(0, maxLength)
+    .trim();
+}
+
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 255;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -24,7 +49,27 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { type, name, email, interest, message }: ConsultationRequest = await req.json();
+    const body = await req.json();
+    const { type, name, email, interest, message }: ConsultationRequest = body;
+
+    // Validate and sanitize inputs
+    const sanitizedName = sanitizeInput(name, 100);
+    const sanitizedInterest = sanitizeInput(interest, 200);
+    const sanitizedMessage = sanitizeInput(message, 1000);
+
+    // Validate email if provided
+    if (email && !validateEmail(email)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    const sanitizedEmail = email ? sanitizeInput(email, 255) : "Not provided";
+
+    // Rate limiting could be added here via Supabase or external service
 
     let emailSubject: string;
     let emailContent: string;
@@ -39,73 +84,51 @@ const handler = async (req: Request): Promise<Response> => {
         <ul>
           <li><strong>Type:</strong> Strategy Session Request</li>
           <li><strong>Source:</strong> Portfolio Website Contact</li>
-          <li><strong>Timestamp:</strong> ${new Date().toLocaleString()}</li>
+          <li><strong>Timestamp:</strong> ${new Date().toISOString()}</li>
         </ul>
         
         <h2>Recommended Follow-up:</h2>
-        <p>Please reach out to schedule a consultation call to discuss:</p>
-        <ul>
-          <li>Digital transformation strategies</li>
-          <li>AI implementation roadmaps</li>
-          <li>Enterprise architecture planning</li>
-          <li>Strategic technology partnerships</li>
-        </ul>
+        <p>Please reach out to schedule a consultation call.</p>
         
-        <p>Best regards,<br>Your Portfolio Contact System</p>
+        <p>Best regards,<br>Portfolio Contact System</p>
       `;
     } else {
-      emailSubject = `New Consultation Request: ${interest || "General Inquiry"}`;
+      emailSubject = `New Consultation Request: ${sanitizedInterest}`;
       emailContent = `
         <h1>New Consultation Form Submission</h1>
         <p>You have received a new consultation request from your portfolio website.</p>
         
         <h2>Contact Details:</h2>
         <ul>
-          <li><strong>Name:</strong> ${name || "Not provided"}</li>
-          <li><strong>Email:</strong> ${email || "Not provided"}</li>
-          <li><strong>Primary Interest:</strong> ${interest || "Not specified"}</li>
-          <li><strong>Timestamp:</strong> ${new Date().toLocaleString()}</li>
+          <li><strong>Name:</strong> ${sanitizedName}</li>
+          <li><strong>Email:</strong> ${sanitizedEmail}</li>
+          <li><strong>Primary Interest:</strong> ${sanitizedInterest}</li>
+          <li><strong>Timestamp:</strong> ${new Date().toISOString()}</li>
         </ul>
         
-        ${message ? `
+        ${sanitizedMessage !== "Not provided" ? `
         <h2>Additional Details:</h2>
         <p style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0;">
-          ${message}
+          ${sanitizedMessage}
         </p>
         ` : ""}
         
-        <h2>Recommended Next Steps:</h2>
-        <p>Based on their interest in <strong>${interest}</strong>, consider discussing:</p>
-        <ul>
-          ${interest?.includes('Investment') ? '<li>Investment opportunities and portfolio analysis</li>' : ''}
-          ${interest?.includes('PE/VC') || interest?.includes('Private Equity') || interest?.includes('Venture Capital') ? '<li>Due diligence processes and portfolio company support</li>' : ''}
-          ${interest?.includes('M&A') || interest?.includes('Mergers') ? '<li>M&A strategy and integration planning</li>' : ''}
-          ${interest?.includes('Digital Transformation') ? '<li>Digital transformation roadmaps and implementation</li>' : ''}
-          ${interest?.includes('AI') ? '<li>AI strategy and implementation frameworks</li>' : ''}
-          ${interest?.includes('Enterprise Architecture') ? '<li>Enterprise architecture modernization</li>' : ''}
-          ${interest?.includes('Fintech') ? '<li>Fintech platform development and strategy</li>' : ''}
-          ${interest?.includes('Education') ? '<li>Education technology solutions and partnerships</li>' : ''}
-          <li>Timeline, budget, and success metrics</li>
-          <li>Team structure and governance model</li>
-        </ul>
-        
-        <p>Best regards,<br>Your Portfolio Contact System</p>
+        <p>Best regards,<br>Portfolio Contact System</p>
       `;
     }
 
     const emailResponse = await resend.emails.send({
-      from: "Christopher Taylor Portfolio <noreply@resend.dev>",
+      from: "TaylorVentureLab Portfolio <noreply@resend.dev>",
       to: ["christopher@bychristophertaylor.com"],
       subject: emailSubject,
       html: emailContent,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Email sent successfully:", emailResponse.id);
 
     return new Response(JSON.stringify({ 
       success: true, 
-      message: "Email sent successfully",
-      id: emailResponse.id 
+      message: "Email sent successfully"
     }), {
       status: 200,
       headers: {
@@ -114,9 +137,9 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Error in send-consultation-email function:", error);
+    console.error("Error in send-consultation-email function:", error.message);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Failed to send email" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
