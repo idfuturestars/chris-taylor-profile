@@ -15,6 +15,9 @@ import BlogPost from "./pages/BlogPost";
 import ContactPage from "./pages/ContactPage";
 import BuildHealth from "./pages/BuildHealth";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfUse from "./pages/TermsOfUse";
+import CookiePolicy from "./pages/CookiePolicy";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +40,9 @@ const App = () => (
             <Route path="/insights/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/build-health" element={<BuildHealth />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfUse />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
