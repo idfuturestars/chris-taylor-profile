@@ -40,7 +40,7 @@ export function BlogManager({ onUpdatePosts, currentPosts }: BlogManagerProps) {
 
       if (error) throw error;
 
-      const formattedPosts = data?.map(post => ({
+      const formattedPosts = data?.map((post: { id: string; title: string; excerpt: string; created_at: string; read_time: string; category: string; content: string }) => ({
         id: parseInt(post.id),
         title: post.title,
         excerpt: post.excerpt,
