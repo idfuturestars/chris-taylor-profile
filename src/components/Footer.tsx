@@ -11,17 +11,12 @@ export function Footer() {
               TaylorVentureLab™
             </h3>
             <p className="text-xs text-muted-foreground mb-4">
-              Founded by Christopher Taylor
+              Founder-led. Governance-first.
             </p>
             <p className="text-sm text-muted-foreground mb-4 max-w-md">
               Building auditable, AI-driven systems for security and human development—where 
               governance, risk discipline, and measurable outcomes are designed into the 
               product from day one.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Note: This site refers to Christopher Taylor, technology executive and 
-              founder in AI security and educational intelligence. Not affiliated with 
-              other individuals of the same name.
             </p>
           </div>
 
@@ -36,25 +31,30 @@ export function Footer() {
               </li>
               <li>
                 <Link to="/eiq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Educational Intelligence (EIQ™)
+                  EIQ™
                 </Link>
               </li>
               <li>
                 <Link to="/idfs" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  ID Future Stars™
+                  IDFS™
+                </Link>
+              </li>
+              <li>
+                <Link to="/nil-collective" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  NIL Collective™
                 </Link>
               </li>
               <li>
                 <Link to="/governance" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Mother AI™ Governance
+                  Governance
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Connect */}
+          {/* Legal & Connect */}
           <div>
-            <h4 className="label-caps mb-4">Connect</h4>
+            <h4 className="label-caps mb-4">Legal & Connect</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
@@ -91,6 +91,16 @@ export function Footer() {
                   Cookie Policy
                 </Link>
               </li>
+              <li>
+                <Link to="/disclaimer" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link to="/accessibility" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Accessibility
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -102,10 +112,9 @@ export function Footer() {
               © {new Date().getFullYear()} TaylorVentureLab™. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground text-center md:text-right max-w-xl">
-              TaylorVentureLab™, Prime Radiant Guard™, SikatLabs™, SikatOne™, Mother AI™, 
-              Educational Intelligence (EIQ™), ID Future Stars™ (IDFS™), and ID Collective™ 
-              are trademarks of TaylorVentureLab™. All other marks are the property of their 
-              respective owners.
+              TaylorVentureLab™, Prime Radiant Guard™, EIQ™, IDFS™, NIL Collective™, ID Collective™, 
+              and Alteria™ are trademarks of TaylorVentureLab™. All other trademarks are the property 
+              of their respective owners.
             </p>
           </div>
         </div>

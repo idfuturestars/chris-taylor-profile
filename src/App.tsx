@@ -9,6 +9,7 @@ import About from "./pages/About";
 import PrimeRadiantGuard from "./pages/PrimeRadiantGuard";
 import EIQ from "./pages/EIQ";
 import IDFS from "./pages/IDFS";
+import NILCollective from "./pages/NILCollective";
 import Governance from "./pages/Governance";
 import Insights from "./pages/Insights";
 import BlogPost from "./pages/BlogPost";
@@ -18,14 +19,32 @@ import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfUse from "./pages/TermsOfUse";
 import CookiePolicy from "./pages/CookiePolicy";
+import Disclaimer from "./pages/Disclaimer";
+import Accessibility from "./pages/Accessibility";
 import Subscribe from "./pages/Subscribe";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
+
+// Initialize theme from localStorage or system preference
+function ThemeInitializer() {
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") {
+      document.documentElement.classList.toggle("dark", stored === "dark");
+    } else {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", prefersDark);
+    }
+  }, []);
+  return null;
+}
 
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ThemeInitializer />
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -36,6 +55,7 @@ const App = () => (
             <Route path="/eiq" element={<EIQ />} />
             <Route path="/educational-intelligence" element={<EIQ />} />
             <Route path="/idfs" element={<IDFS />} />
+            <Route path="/nil-collective" element={<NILCollective />} />
             <Route path="/governance" element={<Governance />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/insights/:slug" element={<BlogPost />} />
@@ -44,6 +64,8 @@ const App = () => (
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfUse />} />
             <Route path="/cookies" element={<CookiePolicy />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/subscribe" element={<Subscribe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

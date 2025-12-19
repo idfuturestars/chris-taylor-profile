@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -9,6 +10,7 @@ const navLinks = [
   { href: "/prime-radiant-guard", label: "Prime Radiant Guard™" },
   { href: "/eiq", label: "EIQ™" },
   { href: "/idfs", label: "IDFS™" },
+  { href: "/nil-collective", label: "NIL Collective™" },
   { href: "/governance", label: "Governance" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
@@ -30,7 +32,7 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -46,25 +48,30 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
+          {/* Right side: Theme Toggle + CTA */}
+          <div className="hidden xl:flex items-center gap-3">
+            <ThemeToggle />
             <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link to="/contact">Request a Briefing</Link>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 text-muted-foreground hover:text-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile: Theme Toggle + Menu Button */}
+          <div className="xl:hidden flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              className="p-2 text-muted-foreground hover:text-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
+          <div className="xl:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <Link
