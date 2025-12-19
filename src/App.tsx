@@ -10,6 +10,7 @@ import EducationalIntelligence from "./pages/EducationalIntelligence";
 import Governance from "./pages/Governance";
 import Insights from "./pages/Insights";
 import ContactPage from "./pages/ContactPage";
+import BuildHealth from "./pages/BuildHealth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/governance" element={<Governance />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/build-health" element={<BuildHealth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
