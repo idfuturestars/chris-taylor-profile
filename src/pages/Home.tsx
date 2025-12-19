@@ -135,13 +135,13 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* NIL Collective */}
+            {/* ID Collective */}
             <div className="trust-card">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <Users className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-xl font-serif font-semibold text-foreground mb-3">
-                NIL Collective™
+                ID Collective™
               </h3>
               <p className="text-muted-foreground mb-4">
                 Compliance-forward pathway studio for athlete and creator talent—focused on 
