@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Shield, Brain, Users, ArrowRight, Lock, Network, Eye, FileCheck } from "lucide-react";
 import OnePagerDownload from "@/components/OnePagerDownload";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
+
 export default function Home() {
   return (
     <Layout>
@@ -271,6 +273,9 @@ export default function Home() {
 
       {/* One-Pager Download */}
       <OnePagerDownload />
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
 
       {/* CTA */}
       <section className="section-tight">
