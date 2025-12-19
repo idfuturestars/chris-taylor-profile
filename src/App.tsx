@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import PrimeRadiantGuard from "./pages/PrimeRadiantGuard";
-import EducationalIntelligence from "./pages/EducationalIntelligence";
+import EIQ from "./pages/EIQ";
+import IDFS from "./pages/IDFS";
 import Governance from "./pages/Governance";
 import Insights from "./pages/Insights";
 import ContactPage from "./pages/ContactPage";
@@ -25,7 +26,9 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/prime-radiant-guard" element={<PrimeRadiantGuard />} />
-          <Route path="/educational-intelligence" element={<EducationalIntelligence />} />
+          <Route path="/eiq" element={<EIQ />} />
+          <Route path="/educational-intelligence" element={<EIQ />} />
+          <Route path="/idfs" element={<IDFS />} />
           <Route path="/governance" element={<Governance />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/contact" element={<ContactPage />} />

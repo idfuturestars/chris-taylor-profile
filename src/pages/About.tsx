@@ -5,12 +5,16 @@ export default function About() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="section bg-gradient-to-b from-muted/30 to-background">
+      <section className="section bg-gradient-to-b from-card to-background">
         <div className="container-wide">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">
-              About Christopher Taylor
+            <span className="label-caps mb-4 block">About</span>
+            <h1 className="text-4xl md:text-5xl font-serif font-semibold tracking-tight text-foreground mb-4">
+              TaylorVentureLab™
             </h1>
+            <p className="text-xs text-muted-foreground mb-6">
+              Founded by Christopher Taylor
+            </p>
             <p className="text-xl text-muted-foreground">
               From infrastructure governance to AI-driven control systems.
             </p>
@@ -24,26 +28,22 @@ export default function About() {
           <div className="max-w-3xl">
             <div className="prose prose-lg text-muted-foreground space-y-6">
               <p>
-                I've spent over 25 years building and optimizing complex enterprise systems—starting 
-                with corporate finance leadership at a publicly traded storage networking company 
-                during a period of rapid growth and intense regulatory scrutiny. That experience 
-                taught me how mission-critical infrastructure, governance discipline, and operational 
-                excellence intersect in high-stakes environments.
+                Christopher Taylor is a technology executive and founder whose work is defined 
+                by a single discipline: optimizing complex systems under real constraints—operational, 
+                regulatory, and economic.
               </p>
               <p>
-                From there, I founded and led technology services firms that pioneered subscription-based 
-                managed services, built virtualization and cloud planning practices, and acquired 
-                proprietary discovery technology that differentiated our offerings in the market. 
-                I've completed successful divestitures, navigated partner program evolutions, and 
-                consistently delivered measurable outcomes for clients in regulated industries—including 
-                major financial institutions and insurance enterprises.
+                He began in high-scrutiny environments where financial governance and infrastructure 
+                reliability were inseparable. He then built and led ventures spanning managed services, 
+                infrastructure modernization, and software-enabled planning—combining product leverage 
+                with delivery rigor. That arc created a distinctive operating style: translate technical 
+                reality into measurable controls, tie execution to governance, and build systems that 
+                withstand due diligence.
               </p>
               <p>
-                Today, I'm applying those lessons to AI-driven security and educational intelligence. 
-                Prime Radiant Guard brings closed-by-default, reasoning-based security enforcement to 
-                enterprise environments. Educational Intelligence (EIQ) models learning and growth 
-                pathways with transparency and accountability built in. Both reflect the same core 
-                conviction: complex systems require auditability, precision, and disciplined execution.
+                Today, TaylorVentureLab™ applies that discipline to AI-driven zero-trust security 
+                and Educational Intelligence (EIQ™)—with auditability, explainability, and risk 
+                discipline embedded from day one.
               </p>
             </div>
           </div>
@@ -51,35 +51,35 @@ export default function About() {
       </section>
 
       {/* What I'm Known For */}
-      <section className="section-tight bg-muted/30">
+      <section className="section-tight bg-card">
         <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-8">
-            What I'm known for
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-8">
+            Known for
           </h2>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
             <div className="flex items-start gap-4">
               <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
               <p className="text-muted-foreground">
-                Turning complex environments into clear, governed models
+                Turning complex environments into clear models and controlled outcomes
               </p>
             </div>
             <div className="flex items-start gap-4">
               <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
               <p className="text-muted-foreground">
-                Building closed-by-default security postures that reduce attack surface
+                Building closed-by-default architectures that reduce risk
               </p>
             </div>
             <div className="flex items-start gap-4">
               <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
               <p className="text-muted-foreground">
-                Translating technical reality into executive-ready decisions
+                Leading programs where governance, evidence, and execution stay aligned
               </p>
             </div>
             <div className="flex items-start gap-4">
               <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
               <p className="text-muted-foreground">
-                Creating repeatable operating systems for modernization and compliance
+                Designing AI systems with logs, limits, approvals, and accountability
               </p>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function About() {
       {/* Selected Capabilities */}
       <section className="section-tight">
         <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-12">
+          <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-12">
             Selected capabilities
           </h2>
           
@@ -100,7 +100,7 @@ export default function About() {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Security & Zero‑Trust</h3>
+                <h3 className="text-lg font-serif font-semibold text-foreground">Security & Zero‑Trust</h3>
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
@@ -118,7 +118,7 @@ export default function About() {
                 <li className="flex items-start gap-3">
                   <Lock className="w-4 h-4 mt-1 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm text-muted-foreground">
-                    Detection engineering and response automation (with human oversight)
+                    Detection engineering and response automation
                   </span>
                 </li>
               </ul>
@@ -130,7 +130,7 @@ export default function About() {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Network className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Platform Architecture</h3>
+                <h3 className="text-lg font-serif font-semibold text-foreground">Platform Architecture</h3>
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
@@ -160,7 +160,7 @@ export default function About() {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Users className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">Program Leadership</h3>
+                <h3 className="text-lg font-serif font-semibold text-foreground">Program Leadership</h3>
               </div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
