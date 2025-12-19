@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/prime-radiant-guard", label: "Prime Radiant Guard" },
-  { href: "/educational-intelligence", label: "Educational Intelligence" },
-  { href: "/governance", label: "Governance & Compliance" },
+  { href: "/prime-radiant-guard", label: "Prime Radiant Guard™" },
+  { href: "/eiq", label: "EIQ™" },
+  { href: "/idfs", label: "IDFS™" },
+  { href: "/governance", label: "Governance" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ];
@@ -22,8 +23,10 @@ export function Navigation() {
       <nav className="container-wide">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="text-lg font-semibold text-foreground">
-            Christopher Taylor
+          <Link to="/" className="flex flex-col">
+            <span className="text-lg font-serif font-semibold text-foreground tracking-wide">
+              TaylorVentureLab™
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -34,8 +37,8 @@ export function Navigation() {
                 to={link.href}
                 className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   location.pathname === link.href
-                    ? "text-primary bg-primary/5"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
               >
                 {link.label}
@@ -45,7 +48,7 @@ export function Navigation() {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Button asChild>
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link to="/contact">Request a Briefing</Link>
             </Button>
           </div>
@@ -70,15 +73,15 @@ export function Navigation() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                     location.pathname === link.href
-                      ? "text-primary bg-primary/5"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
               <div className="pt-4 px-3">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
                     Request a Briefing
                   </Link>
