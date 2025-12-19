@@ -72,6 +72,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/subscribe" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Subscribe
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Privacy Policy
                 </Link>
