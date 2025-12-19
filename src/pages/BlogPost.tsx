@@ -1,6 +1,6 @@
 import { Layout } from "@/components/Layout";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Tag, Share2, Mail, Twitter, Linkedin } from "lucide-react";
 import { getBlogPost } from "@/data/blogPosts";
 import { Helmet } from "react-helmet-async";
 
@@ -159,22 +159,57 @@ export default function BlogPost() {
               {post.excerpt}
             </p>
             
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground border-t border-b border-border py-4">
-              <span className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                {new Date(post.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {post.readTime}
-              </span>
-              <span className="text-foreground/80">
-                {post.author}
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-b border-border py-4">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {new Date(post.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {post.readTime}
+                </span>
+                <span className="text-foreground/80">
+                  {post.author}
+                </span>
+              </div>
+              
+              {/* Social Sharing */}
+              <div className="flex items-center gap-1">
+                <span className="text-sm text-muted-foreground mr-2 flex items-center gap-1">
+                  <Share2 className="w-4 h-4" />
+                  Share
+                </span>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                  aria-label="Share on X (Twitter)"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                  aria-label="Share on LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(`Check out this article: ${window.location.href}`)}`}
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                  aria-label="Share via Email"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </header>
 
