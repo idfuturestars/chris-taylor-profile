@@ -107,29 +107,6 @@ export default function Insights() {
         </section>
       )}
 
-      {/* Coming Soon Queue */}
-      <section className="section-tight">
-        <div className="container-wide">
-          <h2 className="text-xl font-serif font-semibold text-foreground mb-8">
-            Coming Soon
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
-            {[
-              "Port Gating as a Control Plane: Designing Zero‑Trust That Doesn't Break Operations",
-              "Ontology Before Tooling: Why Modeling the System Comes First",
-              "The Cost of Identity Sprawl—and the Controls That Reduce It",
-              "DNS Resilience as a Security Primitive",
-              "Why Explainability Is an Operational Requirement, Not a Marketing Feature",
-              "Risk Scoring That Doesn't Lie: How to Weight Reality"
-            ].map((title, i) => (
-              <div key={i} className="flex items-start gap-3 p-4 rounded-lg border border-border bg-card/50">
-                <div className="w-2 h-2 rounded-full bg-primary/40 mt-2 flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">{title}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="section-tight bg-card">
