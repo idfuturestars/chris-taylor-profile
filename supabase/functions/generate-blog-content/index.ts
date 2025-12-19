@@ -1,7 +1,10 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.5';
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,6 +18,47 @@ serve(async (req) => {
   }
 
   try {
+    // Extract and verify JWT from Authorization header
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.error('Missing or invalid Authorization header');
+      return new Response(JSON.stringify({ error: 'Unauthorized: Missing authorization token' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Create Supabase client with user's JWT (not service role)
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    });
+
+    // Verify user is authenticated
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    if (userError || !user) {
+      console.error('Invalid user token:', userError?.message);
+      return new Response(JSON.stringify({ error: 'Unauthorized: Invalid token' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Check if user is admin using RLS-protected function
+    const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin');
+    if (adminError || !isAdmin) {
+      console.error('User is not admin:', adminError?.message);
+      return new Response(JSON.stringify({ error: 'Forbidden: Admin access required' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('Admin user verified, generating blog content...');
+
     const { prompt, category = 'Technology Leadership' } = await req.json();
 
     if (!openAIApiKey) {
@@ -32,9 +76,7 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You're Christopher Taylor - skip the formal introductions and write like you're having a conversation with a fellow tech executive over coffee. You've been in the trenches for 25+ years building trading platforms, education tech, and leading digital transformations. Currently juggling roles as Co-Founder & CTO of The Sikat Agency and Acting CTO/CDO of ID Future Stars.
-
-Write authentically from your experience - no corporate speak or AI-sounding phrases. Share real stories, specific challenges you've faced, and practical insights. Avoid starting with "In this blog post" or "I will share" - just dive into the topic like you're telling a story.
+            content: `You're a senior technology executive. Write like you're having a conversation with a fellow tech executive. No corporate speak or AI-sounding phrases.
 
 Never use phrases like:
 - "In this blog post, I will..."
@@ -44,7 +86,7 @@ Never use phrases like:
 - "It's important to note..."
 - "In conclusion..."
 
-Instead, be conversational and specific about your actual experiences.`
+Instead, be conversational and specific.`
           },
           {
             role: 'user',
@@ -53,14 +95,12 @@ Instead, be conversational and specific about your actual experiences.`
 Category: ${category}
 
 Write it like you're sharing insights with a colleague - conversational but substantive. Include:
-- Real examples from your work (risc.ai, The Sikat Agency, ID Future Stars, partnerships)
+- Real examples and practical advice
 - Specific technical details and business impacts
-- Practical advice that executives can actually use
-- Personal anecdotes and lessons learned
 - 1200-1600 words
 - Markdown formatting with clear headers
 
-AVOID generic business language and AI-typical introductions. Jump right into valuable insights.
+AVOID generic business language. Jump right into valuable insights.
 
 Return JSON format:
 {
